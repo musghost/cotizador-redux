@@ -1,0 +1,229 @@
+.login{
+  background: #f3f3f3;
+  width: 400px;
+  text-align: center;
+  font-size: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
+  h3 {
+    color: #aaa;
+  }
+
+  a {
+    color: #aaa;
+    font-weight: 400;
+  }
+}
+
+.login-wrapper {
+  padding: 20px;
+}
+
+.field-group {
+  margin-bottom: 20px;
+}
+
+.quotations {
+  background:#fff;
+  height: 100%;
+}
+
+html, body, .todoapp {
+  height: 100%;
+}
+
+.doc-intro {
+  display: flex;
+  align-items: center;
+
+  div.doc-intro-shared {
+    color: #ff9900;
+  }
+
+  div {
+    color: rgb(33, 150, 243);
+    font-size: 20px;
+  }
+
+  span {
+    margin-left: 10px;
+  }
+}
+
+.font-icon {
+  font-size: 20px;
+}
+
+.quotation-view {
+  width: 1024px;
+  margin: 70px auto;
+}
+
+.quotation-view-wrapper {
+  padding: 50px 80px 100px;
+
+  h1 {
+    margin: 100px 0 50px;
+    position: relative;
+    box-sizing: content-box;
+  }
+
+  p, li {
+    line-height: 1.8em;
+  }
+
+  .edit-hidden {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: -10px;
+  }
+
+  * {
+    &:hover {
+      .edit-hidden {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+td.selected {
+  background: #ddd;
+}
+
+.working-table {
+  width: 100%;
+
+  td {
+    text-align: center;
+    padding: 10px 0;
+
+    &:first-child {
+      text-align: left;
+    }
+  }
+}
+
+.commented {
+  position: relative;
+
+  .text-commented {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: red;
+    cursor: pointer;
+    color: #fff;
+    text-align: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .comment-unseen {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: green;
+    cursor: pointer;
+    color: #fff;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+}
+
+.comment {
+  font-size: 0.78em;
+  line-height: 1.2em;
+  padding: 10px 10px;
+  border-bottom: 1px solid #ddd;
+
+  .text-right {
+    text-align: right;
+  }
+
+  &.unseen {
+    position: relative;
+    &:after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 10px;
+      bottom: 0;
+      width: 3px;
+      background: green;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      right: 3px;
+      top: 10px;
+      bottom: 0;
+      width: 2px;
+      background: #8cb78c;
+    }
+
+    &:hover {
+      .attend {
+        display: block;
+      }
+    }
+
+    .attend {
+      position: absolute;
+      right: 4px;
+      top: -20px;
+      display: none;
+
+      i.fa {
+        color: #8cb78c;
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+.comment-form {
+  padding: 10px;
+}
+
+.user-icons {
+  margin-top: 10px;
+
+  a {
+    color: #4d4d4d;
+    font-weight: 400;
+
+    &.delete-icon {
+      &:hover {
+        color: red;
+      }
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  i {
+    margin-right: 10px;
+  }
+}
