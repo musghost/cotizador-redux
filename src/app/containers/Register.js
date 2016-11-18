@@ -4,7 +4,9 @@ import Paper from  'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FlatButton from 'material-ui/FlatButton';
-import LoginForm from './../components/LoginForm';
+import RegisterForm from './../components/RegisterForm';
+import axios from 'axios';
+import qs from 'qs';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -18,36 +20,37 @@ const style = {
   width: '400px'
 }
 
-function submit(values) {
-  console.log(values);
-}
-
-class Login extends Component {  
+class Register extends Component {  
 
   handleSubmit = (values) => {
-    console.log(values);
+    axios.post('http://192.168.99.100:3000/api/v1/sign_up', values)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((e) => {
+        
+      });
   }
 
   render() {
-    const {todos, actions, handleSubmit} = this.props;
+    const {register, handleSubmit} = this.props;
     return (
       <div>
         <MuiThemeProvider>
-          <LoginForm onSubmit={this.handleSubmit} />
+          <RegisterForm onSubmit={this.handleSubmit} />
         </MuiThemeProvider>
       </div>
     );
   }
 }
 
-Login.propTypes = {
-  todos: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+Register.propTypes = {
+  register: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos
+    register: state.register
   };
 }
 
@@ -60,4 +63,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login);
+)(Register);

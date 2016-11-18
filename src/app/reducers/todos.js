@@ -4,33 +4,20 @@ import {
   EDIT_TODO,
   COMPLETE_TODO,
   COMPLETE_ALL,
-  CLEAR_COMPLETED,
-  DO_LOGIN_PENDING,
-  REGISTER_FIELD,
-  REGISTER_CHANGE
+  CLEAR_COMPLETED
 } from '../constants/ActionTypes';
 
-/*const initialState = [
+const initialState = [
   {
     text: 'Use Redux',
     completed: false,
     id: 0
   }
-];*/
-
-const initialState = {
-  session: {},
-  loading: false,
-  form: {
-    login: {
-      username: ''
-    }
-  }
-};
+];
 
 export default function todos(state = initialState, action) {
   switch (action.type) {
-    /*case ADD_TODO:
+    case ADD_TODO:
       return [
         {
           id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
@@ -67,24 +54,7 @@ export default function todos(state = initialState, action) {
     }
 
     case CLEAR_COMPLETED:
-      return state.filter(todo => todo.completed === false);*/
-
-    case DO_LOGIN_PENDING: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-
-    case REGISTER_CHANGE: {
-      newState = {
-        ...state
-      };
-      console.log(action.meta.form, action.meta.field);
-      newState.form[action.meta.form][action.meta.field] = action.payload;
-      return newState;
-    }
-
+      return state.filter(todo => todo.completed === false);
 
     default:
       return state
