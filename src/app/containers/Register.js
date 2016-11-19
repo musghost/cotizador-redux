@@ -37,7 +37,7 @@ class Register extends Component {
     return (
       <div>
         <MuiThemeProvider>
-          <RegisterForm onSubmit={this.handleSubmit} />
+          <RegisterForm errors={register.errors} onSubmit={this.handleSubmit} />
         </MuiThemeProvider>
       </div>
     );

@@ -1,6 +1,6 @@
 const initialState = {
   errors: {
-    a:0
+    correo: 'Hola'
   }
 };
 

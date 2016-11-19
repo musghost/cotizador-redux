@@ -12,6 +12,29 @@ const style = {
   width: '400px'
 }
 
+const validate = values => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = 'Required';
+  }
+
+  if (!values.email) {
+    errors.email = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  if (values.password !== values.password_confirmation) {
+    errors.password= 'Password must match';
+  }
+
+  return errors;
+}
+
+const renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
+  
+}
+
 class RegisterForm extends Component {
 
   render() {
@@ -36,7 +59,7 @@ class RegisterForm extends Component {
                 component={TextField}
                 floatingLabelText="Correo"
                 fullWidth={true}
-                errorText={this.props.error.correo}
+                errorText={this.props.errors.correo}
               />
             </div>
             <div>
@@ -46,7 +69,7 @@ class RegisterForm extends Component {
                 floatingLabelText="Contraseña"
                 fullWidth={true}
                 type="password"
-                errorText={this.props.error.password}
+                errorText={this.props.errors.password}
               />
             </div>
             <div className="field-group">
@@ -56,7 +79,7 @@ class RegisterForm extends Component {
                 floatingLabelText="Confirmar contraseña"
                 fullWidth={true}
                 type="password"
-                errorText={this.props.error.password_confirmation}
+                errorText={this.props.errors.password_confirmation}
               />
             </div>
             <div className="form-errors">
@@ -79,7 +102,8 @@ class RegisterForm extends Component {
 }
 
 RegisterForm = reduxForm({
-  form: 'register'
+  form: 'register',
+  validate
 })(RegisterForm);
 
 export default RegisterForm;

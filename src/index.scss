@@ -1,7 +1,6 @@
 .login, .register{
   background: #f3f3f3;
   width: 400px;
-  text-align: center;
   font-size: 1em;
   position: absolute;
   top: 50%;
@@ -10,6 +9,7 @@
 
   h3 {
     color: #aaa;
+    text-align: center;
   }
 
   a {
