@@ -1,5 +1,4 @@
 import * as types from '../constants/ActionTypes';
-import axios from 'axios';
 
 export function addTodo(text) {
   return {type: types.ADD_TODO, text};
@@ -25,12 +24,10 @@ export function clearCompleted() {
   return {type: types.CLEAR_COMPLETED};
 }
 
-export function doLogin(email, password) {
-  return {
-    type: types.DO_LOGIN,
-    payload: axios.post('http://192.168.99.100:3000/auth/login', {
-      email: email,
-      password: password
-    })
-  }
+export function toggleRegister(change) {
+  return {type: types.TOGGLE_REGISTER, change};
+}
+
+export function addServerResponse(errors) {
+  return {type: types.ADD_REGISTER_ERRORS, errors};
 }

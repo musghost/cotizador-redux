@@ -1,39 +1,23 @@
 import React, {Component, PropTypes} from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Paper from  'material-ui/Paper';
-import Dialog from 'material-ui/Dialog';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import FlatButton from 'material-ui/FlatButton';
 import LoginForm from './../components/LoginForm';
-
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as TodoActions from '../actions/index';
 
-import {
-  TextField,
-} from 'redux-form-material-ui'
+class Login extends Component {
 
-const style = {
-  width: '400px'
-}
-
-function submit(values) {
-  console.log(values);
-}
-
-class Login extends Component {  
-
-  handleSubmit = (values) => {
+  handleSubmit = values => {
     console.log(values);
   }
 
   render() {
-    const {todos, actions, handleSubmit} = this.props;
+    const {todos, actions} = this.props;
+    console.log(todos);
     return (
       <div>
         <MuiThemeProvider>
-          <LoginForm onSubmit={this.handleSubmit} />
+          <LoginForm onSubmit={this.handleSubmit} actions={actions}/>
         </MuiThemeProvider>
       </div>
     );

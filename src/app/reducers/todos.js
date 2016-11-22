@@ -57,6 +57,6 @@ export default function todos(state = initialState, action) {
       return state.filter(todo => todo.completed === false);
 
     default:
-      return state
+      return state;
   }
 }

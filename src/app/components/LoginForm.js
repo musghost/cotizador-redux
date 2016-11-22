@@ -1,16 +1,13 @@
+/* eslint-disable no-class-assign */
 import React, {Component, PropTypes} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import Paper from  'material-ui/Paper';
+import Paper from 'material-ui/Paper';
 
-import { reduxForm, Field } from 'redux-form';
+import {reduxForm, Field} from 'redux-form';
 
 import {
-  TextField,
+  TextField
 } from 'redux-form-material-ui';
-
-const style = {
-  width: '400px'
-}
 
 class LoginForm extends Component {
 
@@ -22,25 +19,24 @@ class LoginForm extends Component {
           <div className="login-wrapper">
             <h3>Ingresar</h3>
             <div>
-               <Field
+              <Field
                 name="email"
                 component={TextField}
                 floatingLabelText="Correo"
-                fullWidth={true}
-              />
+                />
             </div>
             <div className="field-group">
-              <TextField 
-                fullWidth={true}
+              <TextField
                 type="password"
-                floatingLabelText="Contraseña" />
+                floatingLabelText="Contraseña"
+                />
             </div>
             <div className="field-group">
               <RaisedButton
                 label="Ingresar"
-                fullWidth={true}
                 type="submit"
-                primary={true} />
+                primary={Boolean(true)}
+                />
             </div>
             <div className="field-group">
               <div><a href="#">Registrarse</a></div>
@@ -52,6 +48,10 @@ class LoginForm extends Component {
     );
   }
 }
+
+LoginForm.propTypes = {
+  handleSubmit: PropTypes.func.required
+};
 
 LoginForm = reduxForm({
   form: 'login'

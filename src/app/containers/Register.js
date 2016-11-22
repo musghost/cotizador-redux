@@ -1,43 +1,47 @@
+/* eslint-disable camelcase */
 import React, {Component, PropTypes} from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Paper from  'material-ui/Paper';
-import Dialog from 'material-ui/Dialog';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import FlatButton from 'material-ui/FlatButton';
 import RegisterForm from './../components/RegisterForm';
 import axios from 'axios';
-import qs from 'qs';
+import {config} from '../constants/Config';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as TodoActions from '../actions/index';
 
-import {
-  TextField,
-} from 'redux-form-material-ui'
+class Register extends Component {
 
-const style = {
-  width: '400px'
-}
-
-class Register extends Component {  
-
-  handleSubmit = (values) => {
-    axios.post('http://192.168.99.100:3000/api/v1/sign_up', values)
-      .then((data) => {
-        console.log(data);
+  handleSubmit = values => {
+    this.props.actions.addServerResponse({});
+    const valuesCopy = {
+      ...values
+    };
+    valuesCopy.password_confirmation = valuesCopy.passwordConfirmation;
+    // eslint-disable-next-line
+    delete valuesCopy.passwordConfirmation;
+    axios.post(`${config.API_BASE}/sign_up`, valuesCopy)
+      .then(data => {
+        if (data.status === 201) {
+          this.props.actions.toggleRegister(false);
+        }
       })
-      .catch((e) => {
-        
+      .catch(error => {
+        if (error.response.data) {
+          this.props.actions.addServerResponse(error.response.data.errors);
+        }
       });
   }
 
   render() {
-    const {register, handleSubmit} = this.props;
+    const {register, actions} = this.props;
     return (
       <div>
         <MuiThemeProvider>
-          <RegisterForm errors={register.errors} onSubmit={this.handleSubmit} />
+          <RegisterForm
+            register={register}
+            onSubmit={this.handleSubmit}
+            actions={actions}
+            />
         </MuiThemeProvider>
       </div>
     );
@@ -45,7 +49,8 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  register: PropTypes.object.isRequired
+  register: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

@@ -16,6 +16,16 @@
     color: #aaa;
     font-weight: 400;
   }
+
+  .form-errors {
+    color: #c72e2e;
+    padding-left: 0;
+    list-style: none;
+
+    strong {
+      text-transform: capitalize;
+    }
+  }
 }
 
 .login-wrapper {
