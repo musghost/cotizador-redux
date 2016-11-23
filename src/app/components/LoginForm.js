@@ -2,12 +2,24 @@
 import React, {Component, PropTypes} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-
 import {reduxForm, Field} from 'redux-form';
+import {TextField} from 'redux-form-material-ui';
 
-import {
-  TextField
-} from 'redux-form-material-ui';
+const validate = values => {
+  const errors = {};
+
+  if (!values.email) {
+    errors.email = 'Requerido';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Correo inválido';
+  }
+
+  if (!values.password) {
+    errors.password = 'Debe escribir una contraseña';
+  }
+
+  return errors;
+};
 
 class LoginForm extends Component {
 
@@ -23,18 +35,23 @@ class LoginForm extends Component {
                 name="email"
                 component={TextField}
                 floatingLabelText="Correo"
+                fullWidth={Boolean(true)}
                 />
             </div>
             <div className="field-group">
-              <TextField
+              <Field
+                name="password"
                 type="password"
+                component={TextField}
                 floatingLabelText="Contraseña"
+                fullWidth={Boolean(true)}
                 />
             </div>
             <div className="field-group">
               <RaisedButton
                 label="Ingresar"
                 type="submit"
+                fullWidth={Boolean(true)}
                 primary={Boolean(true)}
                 />
             </div>
@@ -50,11 +67,12 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  handleSubmit: PropTypes.func.required
+  handleSubmit: PropTypes.func.isRequired
 };
 
 LoginForm = reduxForm({
-  form: 'login'
+  form: 'login',
+  validate
 })(LoginForm);
 
 export default LoginForm;

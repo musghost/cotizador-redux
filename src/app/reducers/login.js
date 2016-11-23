@@ -1,23 +1,23 @@
 import {
-  TOGGLE_REGISTER,
-  ADD_REGISTER_ERRORS
+  TOGGLE_LOGIN,
+  ADD_LOGIN_ERRORS
 } from '../constants/ActionTypes';
 
 const initialState = {
-  register: true,
+  login: true,
   errors: null
 };
 
-export default function register(state = initialState, action) {
+export default function login(state = initialState, action) {
   switch (action.type) {
 
-    case TOGGLE_REGISTER:
+    case TOGGLE_LOGIN:
       return {
         ...state,
-        register: action.change
+        login: action.change
       };
 
-    case ADD_REGISTER_ERRORS:
+    case ADD_LOGIN_ERRORS:
       return {
         ...state,
         errors: action.errors

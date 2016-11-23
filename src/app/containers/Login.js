@@ -1,23 +1,46 @@
+/* eslint-disable camelcase */
 import React, {Component, PropTypes} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LoginForm from './../components/LoginForm';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as TodoActions from '../actions/index';
+import axios from 'axios';
+import {config} from '../constants/Config';
 
 class Login extends Component {
 
   handleSubmit = values => {
-    console.log(values);
+    this.props.actions.addServerResponseLogin({});
+    const valuesCopy = {
+      ...values
+    };
+    valuesCopy.password_confirmation = valuesCopy.passwordConfirmation;
+    // eslint-disable-next-line
+    delete valuesCopy.passwordConfirmation;
+    axios.post(`${config.API_BASE}/login`, valuesCopy)
+      .then(data => {
+        if (data.status === 201) {
+          this.props.actions.toggleLogin(false);
+        }
+      })
+      .catch(error => {
+        if (error.response.data) {
+          this.props.actions.addServerResponse(error.response.data.errors);
+        }
+      });
   }
 
   render() {
     const {todos, actions} = this.props;
-    console.log(todos);
+
     return (
       <div>
         <MuiThemeProvider>
-          <LoginForm onSubmit={this.handleSubmit} actions={actions}/>
+          <LoginForm
+            onSubmit={this.handleSubmit}
+            actions={actions}
+            />
         </MuiThemeProvider>
       </div>
     );

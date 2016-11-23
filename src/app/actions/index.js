@@ -31,3 +31,11 @@ export function toggleRegister(change) {
 export function addServerResponse(errors) {
   return {type: types.ADD_REGISTER_ERRORS, errors};
 }
+
+export function toggleLogin(change) {
+  return {type: types.TOGGLE_LOGIN, change};
+}
+
+export function addServerResponseLogin(errors) {
+  return {type: types.ADD_LOGIN_ERRORS, errors};
+}
