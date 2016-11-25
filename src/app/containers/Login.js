@@ -12,13 +12,7 @@ class Login extends Component {
 
   handleSubmit = values => {
     this.props.actions.addServerResponseLogin({});
-    const valuesCopy = {
-      ...values
-    };
-    valuesCopy.password_confirmation = valuesCopy.passwordConfirmation;
-    // eslint-disable-next-line
-    delete valuesCopy.passwordConfirmation;
-    axios.post(`${config.API_BASE}/login`, valuesCopy)
+    axios.post(`${config.API_BASE}/login`, values)
       .then(data => {
         if (data.status === 201) {
           this.props.actions.toggleLogin(false);
@@ -26,7 +20,7 @@ class Login extends Component {
       })
       .catch(error => {
         if (error.response.data) {
-          this.props.actions.addServerResponse(error.response.data.errors);
+          this.props.actions.addServerResponseLogin(error.response.data.errors);
         }
       });
   }
