@@ -24,7 +24,20 @@ const validate = values => {
 class LoginForm extends Component {
 
   render() {
-    const {handleSubmit} = this.props;
+    const {handleSubmit, login} = this.props;
+    let errorContainer;
+
+    if (login.errors) {
+      const errors = [];
+      let i = 0;
+      for (const error in login.errors) {
+        if (login.errors.hasOwnProperty(error)) {
+          errors.push(<li key={i}><strong>{error}</strong>: {login.errors[error]}</li>);
+        }
+        i++;
+      }
+      errorContainer = <ul className="form-errors">{errors}</ul>;
+    }
     return (
       <form className="login" onSubmit={handleSubmit}>
         <Paper zDepth={1}>
@@ -55,6 +68,7 @@ class LoginForm extends Component {
                 primary={Boolean(true)}
                 />
             </div>
+            {errorContainer}
             <div className="field-group">
               <div><a href="#">Registrarse</a></div>
               <a href="#">Recuperar contraseña</a>
@@ -67,7 +81,8 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  login: PropTypes.object.isRequired
 };
 
 LoginForm = reduxForm({

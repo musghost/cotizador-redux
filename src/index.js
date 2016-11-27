@@ -10,7 +10,8 @@ import Dashboard from './app/containers/Dashboard';
 import configureStore from './app/store/configureStore';
 import {Router, Route, browserHistory} from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import {routerReducer, syncHistoryWithStore, routerActions, routerMiddleware} from 'react-router-redux';
+import {syncHistoryWithStore, routerActions} from 'react-router-redux';
+import {UserAuthWrapper} from 'redux-auth-wrapper';
 
 //import 'todomvc-app-css/index.css';
 import 'flexboxgrid/css/index.css';
@@ -18,15 +19,23 @@ import 'flexboxgrid/css/flexboxgrid.css';
 import './index.scss';
 
 const store = configureStore();
+const history = syncHistoryWithStore(browserHistory, store);
 
 injectTapEventPlugin();
 
+const UserIsAuthenticated = UserAuthWrapper({
+  authSelector: state => state.user,
+  redirectAction: routerActions.replace,
+  failureRedirectPath: '/',
+  wrapperDisplayName: 'UserIsAuthenticated'
+});
+
 render(
   <Provider store={store}>
-    <Router history={browserHistory}>
+    <Router history={history}>
       <Route path="/" component={Login}/>
       <Route path="/sign-up" component={Register}/>
-      <Route path="/dashboard" component={Dashboard}/>
+      <Route path="/dashboard" component={UserIsAuthenticated(Dashboard)}/>
     </Router>
   </Provider>,
   document.getElementById('root')

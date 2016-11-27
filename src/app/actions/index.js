@@ -39,3 +39,7 @@ export function toggleLogin(change) {
 export function addServerResponseLogin(errors) {
   return {type: types.ADD_LOGIN_ERRORS, errors};
 }
+
+export function setUSer(user) {
+  return {type: types.USER_LOGGED_IN, user}
+}

@@ -4,9 +4,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LoginForm from './../components/LoginForm';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as TodoActions from '../actions/index';
+import * as AllActions from '../actions/index';
 import axios from 'axios';
 import {config} from '../constants/Config';
+import {browserHistory} from 'react-router';
 
 class Login extends Component {
 
@@ -14,8 +15,10 @@ class Login extends Component {
     this.props.actions.addServerResponseLogin({});
     axios.post(`${config.API_BASE}/login`, values)
       .then(data => {
-        if (data.status === 201) {
+        if (data.status === 201 || data.status === 200) {
           this.props.actions.toggleLogin(false);
+          this.props.actions.setUSer(data.data);
+          browserHistory.push('/dashboard');
         }
       })
       .catch(error => {
@@ -26,7 +29,7 @@ class Login extends Component {
   }
 
   render() {
-    const {todos, actions} = this.props;
+    const {login, actions} = this.props;
 
     return (
       <div>
@@ -34,6 +37,7 @@ class Login extends Component {
           <LoginForm
             onSubmit={this.handleSubmit}
             actions={actions}
+            login={login}
             />
         </MuiThemeProvider>
       </div>
@@ -42,19 +46,20 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  todos: PropTypes.array.isRequired,
+  login: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos
+    login: state.login,
+    user: state.user
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(TodoActions, dispatch)
+    actions: bindActionCreators(AllActions, dispatch)
   };
 }
 
