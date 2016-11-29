@@ -5,13 +5,17 @@ import moment from 'moment';
 class ListQuotes extends Component {
   tableBody(){
     const quotes = this.props.quotes.map((quote, i) => {
+      let icon = null;
+      if (quote.is_origin) {
+        icon = <i className="fa fa-file-text" aria-hidden="true"></i>;
+      } else {
+        icon = <i className="fa fa-file-text-o" aria-hidden="true"></i>;
+      }
       return (
         <TableRow key={i}>
           <TableRowColumn>
             <div className="doc-intro">
-              <div>
-                <i className="fa fa-file-text" aria-hidden="true"></i>
-              </div>
+              <div>{icon}</div>
               <span>{quote.project}</span>
             </div>
           </TableRowColumn>

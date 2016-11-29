@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as AllActions from '../actions/index';
 import ListQuotes from '../components/ListQuotes';
+import {browserHistory} from 'react-router';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -25,6 +26,11 @@ class Dashboard extends Component {
     const {actions} = this.props;
     actions.getQuotes();
   }
+
+  handleNewQuote() {
+    browserHistory.push('/quotes');
+  }
+
   render() {
     const {quotes, actions} = this.props;
     return (
@@ -70,7 +76,7 @@ class Dashboard extends Component {
                 </IconMenu>
                 <FontIcon className="muidocs-icon-custom-sort" />
                 <ToolbarSeparator />
-                <RaisedButton label="Nueva cotización" primary={true} />
+                <RaisedButton label="Nueva cotización" ng-click={this.handleNewQuote.bind(this)} primary={true} />
               </ToolbarGroup>
             </Toolbar>
             <div>
