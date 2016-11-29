@@ -1,4 +1,6 @@
 import * as types from '../constants/ActionTypes';
+import axios from 'axios';
+import {config} from '../constants/Config';
 
 export function addTodo(text) {
   return {type: types.ADD_TODO, text};
@@ -41,5 +43,16 @@ export function addServerResponseLogin(errors) {
 }
 
 export function setUSer(user) {
+  localStorage.setItem('user', JSON.stringify(user));
   return {type: types.USER_LOGGED_IN, user}
+}
+
+export function getQuotes() {
+  return (dispatch, getState) => {
+    const user = getState().user;
+    dispatch({
+      type: types.FETCH_QUOTES,
+      payload: axios.get(`${config.API_BASE}/users/${user.user.id}/quotes/`, {headers: {Authorization: user.auth_token}})
+    });
+  }
 }

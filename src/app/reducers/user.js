@@ -3,7 +3,7 @@ import {
   USER_LOGGED_OUT
 } from '../constants/ActionTypes';
 
-const initialState = {};
+const initialState = JSON.parse(localStorage.getItem('user') || '{}');
 
 export default function user(state = initialState, action) {
   switch(action.type) {

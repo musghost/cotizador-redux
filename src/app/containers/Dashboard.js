@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as TodoActions from '../actions/index';
+import * as AllActions from '../actions/index';
+import ListQuotes from '../components/ListQuotes';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -20,8 +21,12 @@ import IconMenu from 'material-ui/IconMenu';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
 class Dashboard extends Component {
+  componentWillMount() {
+    const {actions} = this.props;
+    actions.getQuotes();
+  }
   render() {
-    const {todos, actions} = this.props;
+    const {quotes, actions} = this.props;
     return (
       <div className="quotations">
         <MuiThemeProvider>
@@ -82,109 +87,7 @@ class Dashboard extends Component {
                   </List>
                 </div>
                 <div className="col-sm-10">
-                  <Table>
-                    <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                      <TableRow>
-                        <TableHeaderColumn>Nombre</TableHeaderColumn>
-                        <TableHeaderColumn>Creador</TableHeaderColumn>
-                        <TableHeaderColumn>Fecha de modificación</TableHeaderColumn>
-                        <TableHeaderColumn>Fecha de expiración</TableHeaderColumn>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody displayRowCheckbox={false}>
-                      <TableRow>
-                        <TableRowColumn>
-                          <div className="doc-intro">
-                            <div>
-                              <i className="fa fa-file-text" aria-hidden="true"></i>
-                            </div>
-                            <span>Cotización propia</span>
-                          </div>
-                        </TableRowColumn>
-                        <TableRowColumn>John Smith</TableRowColumn>
-                        <TableRowColumn>12 Oct, 2016</TableRowColumn>
-                        <TableRowColumn>30 Oct, 2016</TableRowColumn>
-                      </TableRow>
-                      <TableRow>
-                        <TableRowColumn>
-                          <div className="doc-intro">
-                            <div>
-                              <i className="fa fa-file-text" aria-hidden="true"></i>
-                            </div>
-                            <span>Cotización sitio de WordPress</span>
-                          </div>
-                        </TableRowColumn>
-                        <TableRowColumn>John Smith</TableRowColumn>
-                        <TableRowColumn>12 Oct, 2016</TableRowColumn>
-                        <TableRowColumn>30 Oct, 2016</TableRowColumn>
-                      </TableRow>
-                      <TableRow>
-                        <TableRowColumn>
-                          <div className="doc-intro">
-                            <div>
-                              <i className="fa fa-file-text" aria-hidden="true"></i>
-                            </div>
-                            <span>Cotización App para educación</span>
-                          </div>
-                        </TableRowColumn>
-                        <TableRowColumn>John Smith</TableRowColumn>
-                        <TableRowColumn>12 Oct, 2016</TableRowColumn>
-                        <TableRowColumn>30 Oct, 2016</TableRowColumn>
-                      </TableRow>
-                      <TableRow>
-                        <TableRowColumn>
-                          <div className="doc-intro">
-                            <div>
-                              <i className="fa fa-file-text" aria-hidden="true"></i>
-                            </div>
-                            <span>Cotización infraestructura</span>
-                          </div>
-                        </TableRowColumn>
-                        <TableRowColumn>John Smith</TableRowColumn>
-                        <TableRowColumn>12 Oct, 2016</TableRowColumn>
-                        <TableRowColumn>30 Oct, 2016</TableRowColumn>
-                      </TableRow>
-                      <TableRow>
-                        <TableRowColumn>
-                          <div className="doc-intro">
-                            <div className="doc-intro-shared">
-                              <i className="fa fa-file-text" aria-hidden="true"></i>
-                            </div>
-                            <span>Cotización compartida</span>
-                          </div>
-                        </TableRowColumn>
-                        <TableRowColumn>John Smith</TableRowColumn>
-                        <TableRowColumn>12 Oct, 2016</TableRowColumn>
-                        <TableRowColumn>30 Oct, 2016</TableRowColumn>
-                      </TableRow>
-                      <TableRow>
-                        <TableRowColumn>
-                          <div className="doc-intro">
-                            <div>
-                              <i className="fa fa-file-text" aria-hidden="true"></i>
-                            </div>
-                            <span>Cotización API RESTful</span>
-                          </div>
-                        </TableRowColumn>
-                        <TableRowColumn>John Smith</TableRowColumn>
-                        <TableRowColumn>12 Oct, 2016</TableRowColumn>
-                        <TableRowColumn>30 Oct, 2016</TableRowColumn>
-                      </TableRow>
-                      <TableRow>
-                        <TableRowColumn>
-                          <div className="doc-intro">
-                            <div>
-                              <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                            </div>
-                            <span>Cotización origen</span>
-                          </div>
-                        </TableRowColumn>
-                        <TableRowColumn>John Smith</TableRowColumn>
-                        <TableRowColumn>12 Oct, 2016</TableRowColumn>
-                        <TableRowColumn>30 Oct, 2016</TableRowColumn>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                  <ListQuotes quotes={quotes.quotes} />
                 </div>
               </div>
             </div>
@@ -196,19 +99,19 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  todos: PropTypes.array.isRequired,
+  quotes: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos
+    quotes: state.quotes
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(TodoActions, dispatch)
+    actions: bindActionCreators(AllActions, dispatch)
   };
 }
 

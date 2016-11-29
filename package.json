@@ -4,8 +4,11 @@
     "babel-preset-stage-2": "^6.18.0",
     "classnames": "^2.2.5",
     "es6-shim": "^0.35.0",
+    "file-loader": "^0.9.0",
     "flexboxgrid": "^6.3.1",
+    "font-awesome-loader": "^1.0.1",
     "material-ui": "^0.16.1",
+    "moment": "^2.17.0",
     "qs": "^6.3.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
@@ -22,7 +25,8 @@
     "redux-logger": "^2.7.4",
     "redux-promise-middleware": "^4.1.0",
     "redux-thunk": "^2.1.0",
-    "todomvc-app-css": "^2.0.4"
+    "todomvc-app-css": "^2.0.4",
+    "url-loader": "^0.5.7"
   },
   "devDependencies": {
     "autoprefixer": "^6.2.2",

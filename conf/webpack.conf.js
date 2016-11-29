@@ -24,6 +24,14 @@ module.exports = {
         ]
       },
       {
+        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000',
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+        loader: 'file-loader',
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loaders: [
@@ -52,6 +60,7 @@ module.exports = {
   entry: [
     'webpack/hot/dev-server',
     'webpack-hot-middleware/client',
+    'font-awesome-loader',
     `./${conf.path.src('index')}`
   ]
 };
