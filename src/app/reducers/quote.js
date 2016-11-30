@@ -1,6 +1,5 @@
 import {
-  TOGGLE_LOGIN,
-  ADD_LOGIN_ERRORS
+  CHANGE_QUOTE
 } from '../constants/ActionTypes';
 
 const initialState = [
@@ -191,6 +190,10 @@ const initialState = [
 
 export default function quote(state = initialState, action) {
   switch (action.type) {
+
+    case CHANGE_QUOTE: {
+      return action.quote;
+    }
 
     default:
       return state;

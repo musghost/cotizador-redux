@@ -17,12 +17,17 @@ import QuoteList from '../components/quote/QuoteList';
 import QuoteImages from '../components/quote/QuoteImages';
 import QuoteCalendar from '../components/quote/QuoteCalendar';
 import QuotePrice from '../components/quote/QuotePrice';
+import ModalEdition from '../components/quote/ModalEdition';
 
 class Quote extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      editing: false,
+      element: null,
+      initialValues: null,
+      node: null
     }
 
     this.handleToggle = this.handleToggle.bind(this);
@@ -32,8 +37,33 @@ class Quote extends Component {
     this.setState({
       open: !this.state.open
     });
+  }
 
-    console.log(this.state.open);
+  editTitle = (element) => {
+    const {title} = element.content;
+
+    this.setState({
+      editing: true,
+      initialValues: {...title},
+      element: {...element},
+      node: 'title'
+    });
+  }
+
+  handleSubmit = values => {
+    const {actions} = this.props;
+
+    switch(this.state.node) {
+      case 'title': {
+        actions.setTitle(this.state.element, values.value);
+        this.setState({
+          editing: false,
+          initialValues: null,
+          element: null,
+          node: null
+        });
+      }
+    }
   }
 
   render() {
@@ -41,7 +71,11 @@ class Quote extends Component {
     const elements = quote.map((element, index) => {
       switch(element.type) {
         case 'text': {
-          return <QuoteText value={element} key={index} />
+          return <QuoteText
+            value={element}
+            key={index}
+            editTitle={this.editTitle}
+            />
         }
         case 'list': {
           return <QuoteList value={element} key={index} />
@@ -106,6 +140,13 @@ class Quote extends Component {
               {elements}
             </div>
           </Paper>
+          {this.state.editing ? (
+            <ModalEdition
+              onSubmit={this.handleSubmit}
+              initialValues={this.state.initialValues}
+              type={this.state.element.type}
+              />
+            ) : null}
         </div>
       </MuiThemeProvider>
     );

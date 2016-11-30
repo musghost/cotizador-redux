@@ -56,3 +56,16 @@ export function getQuotes() {
     });
   }
 }
+
+export function setTitle(element, newValue) {
+  return (dispatch, getState) => {
+    const quote = getState().quote.concat([]);
+    for(let quoteElement of quote){
+      if(quoteElement.id === element.id) {
+        quoteElement.content.title.value = newValue;
+      }
+    }
+
+    dispatch({type: types.CHANGE_QUOTE, quote});
+  }
+}
