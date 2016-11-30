@@ -49,7 +49,18 @@ class ModalEdition extends Component {
             fullWidth={Boolean(true)}
             autoFocus={Boolean(true)}
             />
-        )
+        );
+      }
+      case 'bullet': {
+        return (
+          <Field
+            name="value"
+            component={TextField}
+            floatingLabelText="Bullet"
+            fullWidth={Boolean(true)}
+            autoFocus={Boolean(true)}
+            />
+        );
       }
       case 'text': {
         return (
@@ -74,6 +85,76 @@ class ModalEdition extends Component {
                 label="Guardar"
                 fullWidth={Boolean(true)}
                 onClick={this.handleClickSave}
+                />
+            </div>
+          </div>
+        );
+      }
+      case 'calendar': {
+        return (
+          <div>
+            <div>
+              <Field
+                name="concept"
+                component={TextField}
+                floatingLabelText="Concepto"
+                fullWidth={Boolean(true)}
+                autoFocus={Boolean(true)}
+                />
+            </div>
+            <div>
+              <Field
+                name="from"
+                component={TextField}
+                floatingLabelText="Desde"
+                fullWidth={Boolean(true)}
+                />
+            </div>
+            <div>
+              <Field
+                name="to"
+                component={TextField}
+                floatingLabelText="Hasta"
+                fullWidth={Boolean(true)}
+                />
+            </div>
+            <div>
+              <RaisedButton
+                primary={Boolean(true)}
+                label="Guardar"
+                fullWidth={Boolean(true)}
+                type="submit"
+                />
+            </div>
+          </div>
+        );
+      }
+      case 'price': {
+        return (
+          <div>
+            <div>
+              <Field
+                name="concept"
+                component={TextField}
+                floatingLabelText="Concepto"
+                fullWidth={Boolean(true)}
+                autoFocus={Boolean(true)}
+                />
+            </div>
+            <div>
+              <Field
+                name="price"
+                component={TextField}
+                floatingLabelText="Desde"
+                fullWidth={Boolean(true)}
+                />
+            </div>
+            <div>
+              <RaisedButton
+                primary={Boolean(true)}
+                label="Guardar"
+                fullWidth={Boolean(true)}
+                type="submit"
                 />
             </div>
           </div>

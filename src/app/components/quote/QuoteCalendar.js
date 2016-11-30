@@ -6,6 +6,10 @@ class QuoteCalendar extends Component {
     this.props.editTitle(this.props.value);
   }
 
+  editCalendar = (item) => {
+    this.props.editCalendar(this.props.value, item)
+  }
+
   render() {
     const {title, calendar} = this.props.value.content;
 
@@ -15,7 +19,19 @@ class QuoteCalendar extends Component {
 
       return (
         <tr key={index}>
-          <td>{concept}</td>
+          <td>
+            <div className="has-up-menu up-menu-table">
+              {concept}
+              <div className="up-menu">
+                <button onClick={this.editCalendar.bind(this, element)}>Editar</button>
+                <button>Guardar</button>
+                <button>Bajar sección</button>
+                <button>Subir sección</button>
+                <button>Eliminar</button>
+                <button>Actualizar origen</button>
+              </div>
+            </div>
+          </td>
           {(from > 1) ? <td colSpan={from - 1}></td> : null}
           <td className="selected" colSpan={length}>{length} semanas</td>
           <td colSpan={calendar.total - length - from + 1}></td>
@@ -36,15 +52,7 @@ class QuoteCalendar extends Component {
             <button>Actualizar origen</button>
           </div>
         </h1>
-        <div className="has-up-menu">
-          <div className="up-menu">
-            <button>Editar</button>
-            <button>Guardar</button>
-            <button>Bajar sección</button>
-            <button>Subir sección</button>
-            <button>Eliminar</button>
-            <button>Actualizar origen</button>
-          </div>
+        <div>
           <table className="working-table">
             <thead>
               <tr>
@@ -64,7 +72,8 @@ class QuoteCalendar extends Component {
 
 QuoteCalendar.propTypes = {
   value: React.PropTypes.object,
-  editTitle: React.PropTypes.func
+  editTitle: React.PropTypes.func,
+  editCalendar: React.PropTypes.func
 };
 
 export default QuoteCalendar;

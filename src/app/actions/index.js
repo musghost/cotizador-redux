@@ -82,3 +82,54 @@ export function setText(element, newValue) {
     dispatch({type: types.CHANGE_QUOTE, quote});
   }
 }
+
+export function setBullet(element, listItem, newValue) {
+  return (dispatch, getState) => {
+    const quote = getState().quote.concat([]);
+    for(let quoteElement of quote){
+      if(quoteElement.id === element.id) {
+        for(let item of quoteElement.content.list.value) {
+          if(listItem.id === item.id) {
+            item.value = newValue;
+            return dispatch({type: types.CHANGE_QUOTE, quote});
+          }
+        }
+      }
+    }
+  }
+}
+
+export function setCalendarItem(element, values) {
+  return (dispatch, getState) => {
+    const quote = getState().quote.concat([]);
+    for(let quoteElement of quote) {
+      if(quoteElement.id === element.id) {
+        for(let item of quoteElement.content.calendar.value) {
+          if(values.id === item.id) {
+            item.concept = values.concept;
+            item.from = values.from;
+            item.to = values.to;
+            return dispatch({type: types.CHANGE_QUOTE, quote});
+          }
+        }
+      }
+    }
+  }
+}
+
+export function setPriceItem(element, values) {
+  return (dispatch, getState) => {
+    const quote = getState().quote.concat([]);
+    for(let quoteElement of quote) {
+      if(quoteElement.id === element.id) {
+        for(let item of quoteElement.content.concepts.value) {
+          if(values.id === item.id) {
+            item.concept = values.concept;
+            item.price = values.price;
+            return dispatch({type: types.CHANGE_QUOTE, quote});
+          }
+        }
+      }
+    }
+  }
+}

@@ -11,6 +11,10 @@ class QuotePrice extends Component {
     this.props.editTitle(this.props.value);
   }
 
+  editPrice = (item) => {
+    this.props.editPrice(this.props.value, item);
+  }
+
   render() {
     const {title, text, concepts} = this.props.value.content;
 
@@ -20,7 +24,18 @@ class QuotePrice extends Component {
       total += parseFloat(element.price);
       return (
         <TableRow key={index}>
-          <TableRowColumn>{element.concept}</TableRowColumn>
+          <TableRowColumn>
+            <div className="has-up-menu up-menu-table">
+              {element.concept}
+              <div className="up-menu">
+                <button onClick={this.editPrice.bind(this, element)}>Editar</button>
+                <button>Bajar</button>
+                <button>Subir</button>
+                <button>Eliminar</button>
+                <button>Actualizar origen</button>
+              </div>
+            </div>
+          </TableRowColumn>
           <TableRowColumn>{element.price}</TableRowColumn>
         </TableRow>
       );
@@ -50,15 +65,7 @@ class QuotePrice extends Component {
           </div>
           <div dangerouslySetInnerHTML={this.createMarkup(text.value)}></div>
         </div>
-        <div className="has-up-menu">
-          <div className="up-menu">
-            <button>Editar</button>
-            <button>Guardar</button>
-            <button>Bajar sección</button>
-            <button>Subir sección</button>
-            <button>Eliminar</button>
-            <button>Actualizar origen</button>
-          </div>
+        <div>
           <Table>
             <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
               <TableRow>
@@ -82,7 +89,8 @@ class QuotePrice extends Component {
 
 QuotePrice.propTypes = {
   value: React.PropTypes.object,
-  editTitle: React.PropTypes.func
+  editTitle: React.PropTypes.func,
+  editPrice: React.PropTypes.func
 };
 
 export default QuotePrice;

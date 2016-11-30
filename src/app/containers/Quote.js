@@ -4,13 +4,8 @@ import {connect} from 'react-redux';
 import {EditQuote} from '../components/EditQuote';
 import * as Actions from '../actions/index';
 
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
 import Paper from  'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import IconButton from 'material-ui/IconButton/IconButton';
-import Drawer from 'material-ui/Drawer';
-import Subheader from 'material-ui/Subheader';
 
 import QuoteText from '../components/quote/QuoteText';
 import QuoteList from '../components/quote/QuoteList';
@@ -18,6 +13,7 @@ import QuoteImages from '../components/quote/QuoteImages';
 import QuoteCalendar from '../components/quote/QuoteCalendar';
 import QuotePrice from '../components/quote/QuotePrice';
 import ModalEdition from '../components/quote/ModalEdition';
+//import CommentDrawer from '../components/quote/CommentDrawer';
 
 class Quote extends Component {
   constructor(props) {
@@ -26,6 +22,7 @@ class Quote extends Component {
       open: false,
       editing: false,
       element: null,
+      subElement: null,
       initialValues: null,
       node: null
     }
@@ -50,14 +47,45 @@ class Quote extends Component {
     });
   }
 
-  editText = (element) => {
-    const {title} = element.content;
+  editBullet = (element, listItem) => {
 
     this.setState({
       editing: true,
-      initialValues: {...title},
+      initialValues: {...listItem},
+      element: {...element},
+      subElement: listItem,
+      node: 'bullet'
+    });
+  }
+
+  editText = (element) => {
+    const {title} = element;
+
+    this.setState({
+      editing: true,
+      initialValues: {...element},
       element: {...element},
       node: 'text'
+    });
+  }
+
+  editCalendar = (element, item) => {
+    const {title} = element.content;
+    this.setState({
+      editing: true,
+      initialValues: {...item},
+      element: {...element},
+      node: 'calendar'
+    });
+  }
+
+  editPrice = (element, item) => {
+    const {title} = element.content;
+    this.setState({
+      editing: true,
+      initialValues: {...item},
+      element: {...element},
+      node: 'price'
     });
   }
 
@@ -67,6 +95,33 @@ class Quote extends Component {
     switch(this.state.node) {
       case 'title': {
         actions.setTitle(this.state.element, values.value);
+        this.setState({
+          editing: false,
+          initialValues: null,
+          element: null,
+          node: null
+        });
+      }
+      case 'bullet': {
+        actions.setBullet(this.state.element, this.state.subElement, values.value);
+        this.setState({
+          editing: false,
+          initialValues: null,
+          element: null,
+          node: null
+        });
+      }
+      case 'calendar': {
+        actions.setCalendarItem(this.state.element, values);
+        this.setState({
+          editing: false,
+          initialValues: null,
+          element: null,
+          node: null
+        });
+      }
+      case 'price': {
+        actions.setPriceItem(this.state.element, values);
         this.setState({
           editing: false,
           initialValues: null,
@@ -110,6 +165,7 @@ class Quote extends Component {
             value={element}
             key={index}
             editTitle={this.editTitle}
+            editBullet={this.editBullet}
             />
         }
         case 'images': {
@@ -124,6 +180,7 @@ class Quote extends Component {
             value={element}
             key={index}
             editTitle={this.editTitle}
+            editCalendar={this.editCalendar}
             />
         }
         case 'price': {
@@ -131,6 +188,7 @@ class Quote extends Component {
             value={element}
             key={index}
             editTitle={this.editTitle}
+            editPrice={this.editPrice}
             />
         }
       }
@@ -139,46 +197,6 @@ class Quote extends Component {
     return (
       <MuiThemeProvider>
         <div className="quotation-view">
-          <Drawer width={200} openSecondary={true} open={this.state.open} >
-            <Subheader>Comentarios</Subheader>
-            <div className="comment unseen">
-              <div className="attend">
-                <IconButton tooltip="¿Atendido?" tooltipPosition={'top-center'} tooltipStyles={{color: '#ffffff'}}>
-                  <i className="fa fa-check" aria-hidden="true"></i>
-                </IconButton>
-              </div>
-              <div><strong>Andrés</strong></div>
-              <span>
-                Creo que es mejor agregar más tiempo a esta parte.
-              </span>
-            </div>
-            <div className="comment">
-              <div className="text-right"><strong>Fernando</strong></div>
-              <span>¿Qué parte es la que afecta a los tiempos?</span>
-            </div>
-            <div className="comment">
-              <div><strong>Andrés</strong></div>
-              <span>Olvidamos incluir recuperación de contraseña.</span>
-            </div>
-            <div className="comment">
-              <div className="text-right"><strong>Fernando</strong></div>
-              <span>Ya veo.</span>
-            </div>
-            <div className="comment-form">
-              <TextField
-                multiLine={true}
-                rows={2}
-                rowsMax={4}
-                fullWidth={true}
-                floatingLabelText="Comentar"
-                inputStyle={{fontSize: '12px'}}
-                floatingLabelStyle={{fontSize: '12px'}}
-                textareaStyle={{fontSize: '12px'}}
-                underlineStyle={{fontSize: '12px'}}
-                hintText="Comentar" />
-              <RaisedButton label="Agregar" labelStyle={{fontSize: '12px', textTransform: 'none'}} />
-            </div>
-          </Drawer>
           <Paper zDepth={1}>
             <div className="quotation-view-wrapper">
               {elements}

@@ -10,6 +10,10 @@ class QuoteList extends Component {
     this.props.editTitle(this.props.value);
   }
 
+  editBullet = (listItem) => {
+    this.props.editBullet(this.props.value, listItem);
+  }
+
   render() {
     const {title, text, list} = this.props.value.content;
 
@@ -21,7 +25,7 @@ class QuoteList extends Component {
             <i className="fa fa-commenting-o" aria-hidden="true"></i>
           </span>
           <div className="up-menu">
-            <button>Editar</button>
+            <button onClick={this.editBullet.bind(this, element)}>Editar</button>
             <button>Guardar</button>
             <button>Bajar sección</button>
             <button>Subir sección</button>
@@ -66,7 +70,8 @@ class QuoteList extends Component {
 
 QuoteList.propTypes = {
   value: React.PropTypes.object,
-  editTitle: React.PropTypes.func
+  editTitle: React.PropTypes.func,
+  editBullet: React.PropTypes.func
 };
 
 export default QuoteList;
