@@ -28,7 +28,7 @@ class Dashboard extends Component {
   }
 
   handleNewQuote() {
-    browserHistory.push('/quotes');
+    browserHistory.push('/quote');
   }
 
   render() {
@@ -76,7 +76,7 @@ class Dashboard extends Component {
                 </IconMenu>
                 <FontIcon className="muidocs-icon-custom-sort" />
                 <ToolbarSeparator />
-                <RaisedButton label="Nueva cotización" ng-click={this.handleNewQuote.bind(this)} primary={true} />
+                <RaisedButton label="Nueva cotización" onClick={this.handleNewQuote.bind(this)} primary={true} />
               </ToolbarGroup>
             </Toolbar>
             <div>

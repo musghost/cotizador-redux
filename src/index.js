@@ -3,10 +3,13 @@ import 'babel-polyfill';
 import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
+
 import App from './app/containers/App';
 import Login from './app/containers/Login';
 import Register from './app/containers/Register';
 import Dashboard from './app/containers/Dashboard';
+import Quote from './app/containers/Quote';
+
 import configureStore from './app/store/configureStore';
 import {Router, Route, browserHistory} from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -36,6 +39,7 @@ render(
       <Route path="/" component={Login}/>
       <Route path="/sign-up" component={Register}/>
       <Route path="/dashboard" component={UserIsAuthenticated(Dashboard)}/>
+      <Route path="/quote" component={UserIsAuthenticated(Quote)}/>
     </Router>
   </Provider>,
   document.getElementById('root')
