@@ -85,13 +85,6 @@ html, body, .todoapp {
     line-height: 1.8em;
   }
 
-  .edit-hidden {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: -10px;
-  }
-
   * {
     &:hover {
       .edit-hidden {
@@ -235,5 +228,44 @@ td.selected {
 
   i {
     margin-right: 10px;
+  }
+}
+
+.has-up-menu {
+  position: relative;
+
+  &:hover {
+    background: #ccc;
+    .up-menu {
+      display: block;
+    }
+  }
+}
+.up-menu {
+  position: absolute;
+  left: 0;
+  top: -40px;
+  right: 0;
+  font-size: 13px;
+  display: none;
+  height: 20px;
+  padding-top: 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-bottom: 0;
+
+  &:hover {
+    display: block;
+  }
+
+  button {
+    background: none;
+    border: 0;
+    display: inline-block;
+    margin-right: 10px;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
