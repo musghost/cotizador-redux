@@ -6,6 +6,10 @@ class QuoteImages extends Component {
     return {__html: htmlContent};
   }
 
+  editTitle = () => {
+    this.props.editTitle(this.props.value);
+  }
+
   render() {
     const {title, text, images} = this.props.value.content;
 
@@ -30,7 +34,7 @@ class QuoteImages extends Component {
         <h1 className="has-up-menu">
           {title.value}
           <div className="up-menu">
-            <button>Editar</button>
+            <button onClick={this.editTitle}>Editar</button>
             <button>Guardar</button>
             <button>Bajar sección</button>
             <button>Subir sección</button>
@@ -58,7 +62,8 @@ class QuoteImages extends Component {
 }
 
 QuoteImages.propTypes = {
-  value: React.PropTypes.object
+  value: React.PropTypes.object,
+  editTitle: React.PropTypes.func
 };
 
 export default QuoteImages;

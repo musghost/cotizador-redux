@@ -78,16 +78,32 @@ class Quote extends Component {
             />
         }
         case 'list': {
-          return <QuoteList value={element} key={index} />
+          return <QuoteList
+            value={element}
+            key={index}
+            editTitle={this.editTitle}
+            />
         }
         case 'images': {
-          return <QuoteImages value={element} key={index} />
+          return <QuoteImages
+            value={element}
+            key={index}
+            editTitle={this.editTitle}
+            />
         }
         case 'calendar': {
-          return <QuoteCalendar value={element} key={index} />
+          return <QuoteCalendar
+            value={element}
+            key={index}
+            editTitle={this.editTitle}
+            />
         }
         case 'price': {
-          return <QuotePrice value={element} key={index} />
+          return <QuotePrice
+            value={element}
+            key={index}
+            editTitle={this.editTitle}
+            />
         }
       }
       return null;
@@ -144,7 +160,7 @@ class Quote extends Component {
             <ModalEdition
               onSubmit={this.handleSubmit}
               initialValues={this.state.initialValues}
-              type={this.state.element.type}
+              node={this.state.node}
               />
             ) : null}
         </div>

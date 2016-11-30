@@ -7,6 +7,10 @@ class QuotePrice extends Component {
     return {__html: htmlContent};
   }
 
+  editTitle = () => {
+    this.props.editTitle(this.props.value);
+  }
+
   render() {
     const {title, text, concepts} = this.props.value.content;
 
@@ -27,7 +31,7 @@ class QuotePrice extends Component {
         <h1 className="has-up-menu">
           {title.value}
           <div className="up-menu">
-            <button>Editar</button>
+            <button onClick={this.editTitle}>Editar</button>
             <button>Guardar</button>
             <button>Bajar sección</button>
             <button>Subir sección</button>
@@ -77,7 +81,8 @@ class QuotePrice extends Component {
 }
 
 QuotePrice.propTypes = {
-  value: React.PropTypes.object
+  value: React.PropTypes.object,
+  editTitle: React.PropTypes.func
 };
 
 export default QuotePrice;

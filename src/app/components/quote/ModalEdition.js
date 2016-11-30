@@ -14,9 +14,9 @@ class ModalEdition extends Component {
   }
 
   renderFormType() {
-    const type = this.props.type;
-    switch (type) {
-      case 'text': {
+    const node = this.props.node;
+    switch (node) {
+      case 'title': {
         return (
           <Field
             name="value"
@@ -48,7 +48,7 @@ class ModalEdition extends Component {
 }
 
 ModalEdition.propTypes = {
-  type: React.PropTypes.string,
+  node: React.PropTypes.string,
   handleSubmit: PropTypes.func.isRequired
 };
 

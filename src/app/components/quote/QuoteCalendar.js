@@ -2,6 +2,10 @@ import React, {PropTypes, Component} from 'react';
 
 class QuoteCalendar extends Component {
 
+  editTitle = () => {
+    this.props.editTitle(this.props.value);
+  }
+
   render() {
     const {title, calendar} = this.props.value.content;
 
@@ -24,7 +28,7 @@ class QuoteCalendar extends Component {
         <h1 className="has-up-menu">
           {title.value}
           <div className="up-menu">
-            <button>Editar</button>
+            <button onClick={this.editTitle}>Editar</button>
             <button>Guardar</button>
             <button>Bajar sección</button>
             <button>Subir sección</button>
@@ -59,7 +63,8 @@ class QuoteCalendar extends Component {
 }
 
 QuoteCalendar.propTypes = {
-  value: React.PropTypes.object
+  value: React.PropTypes.object,
+  editTitle: React.PropTypes.func
 };
 
 export default QuoteCalendar;
