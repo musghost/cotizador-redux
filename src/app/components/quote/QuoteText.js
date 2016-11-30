@@ -14,6 +14,10 @@ class QuoteText extends Component {
     this.props.editTitle(this.props.value);
   }
 
+  editText = () => {
+    this.props.editText(this.props.value);
+  }
+
   render() {
     const {title, text} = this.props.value.content;
     return (
@@ -31,7 +35,7 @@ class QuoteText extends Component {
         </h1>
         <div className="has-up-menu">
           <div className="up-menu">
-            <button>Editar</button>
+            <button onClick={this.editText}>Editar</button>
             <button>Guardar</button>
             <button>Bajar sección</button>
             <button>Subir sección</button>
@@ -47,7 +51,8 @@ class QuoteText extends Component {
 
 QuoteText.propTypes = {
   value: React.PropTypes.object,
-  editTitle: React.PropTypes.func
+  editTitle: React.PropTypes.func,
+  editText: React.PropTypes.func
 };
 
 export default QuoteText;

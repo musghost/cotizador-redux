@@ -69,3 +69,16 @@ export function setTitle(element, newValue) {
     dispatch({type: types.CHANGE_QUOTE, quote});
   }
 }
+
+export function setText(element, newValue) {
+  return (dispatch, getState) => {
+    const quote = getState().quote.concat([]);
+    for(let quoteElement of quote){
+      if(quoteElement.id === element.id) {
+        quoteElement.content.text.value = newValue;
+      }
+    }
+
+    dispatch({type: types.CHANGE_QUOTE, quote});
+  }
+}

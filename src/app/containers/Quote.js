@@ -50,12 +50,39 @@ class Quote extends Component {
     });
   }
 
+  editText = (element) => {
+    const {title} = element.content;
+
+    this.setState({
+      editing: true,
+      initialValues: {...title},
+      element: {...element},
+      node: 'text'
+    });
+  }
+
   handleSubmit = values => {
     const {actions} = this.props;
 
     switch(this.state.node) {
       case 'title': {
         actions.setTitle(this.state.element, values.value);
+        this.setState({
+          editing: false,
+          initialValues: null,
+          element: null,
+          node: null
+        });
+      }
+    }
+  }
+
+  handleAlternSubmit = content => {
+    const {actions} = this.props;
+
+    switch(this.state.node) {
+      case 'text': {
+        actions.setText(this.state.element, content);
         this.setState({
           editing: false,
           initialValues: null,
@@ -75,6 +102,7 @@ class Quote extends Component {
             value={element}
             key={index}
             editTitle={this.editTitle}
+            editText={this.editText}
             />
         }
         case 'list': {
@@ -159,8 +187,10 @@ class Quote extends Component {
           {this.state.editing ? (
             <ModalEdition
               onSubmit={this.handleSubmit}
+              handleAlternSubmit={this.handleAlternSubmit}
               initialValues={this.state.initialValues}
               node={this.state.node}
+              element={this.state.element}
               />
             ) : null}
         </div>

@@ -1,7 +1,9 @@
 import React, {PropTypes, Component} from 'react';
 import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
 import {reduxForm, Field} from 'redux-form';
 import {TextField} from 'redux-form-material-ui';
+import TinyMCE from 'react-tinymce';
 
 class ModalEdition extends Component {
 
@@ -9,8 +11,30 @@ class ModalEdition extends Component {
     super(props);
     
     this.state = {
-      open: true
+      open: true,
+      textEditorContent: null
     }
+  }
+
+  componentWillMount() {
+    const node = this.props.node;
+    switch (node) {
+      case 'text': {
+        this.setState({
+          textEditorContent: this.props.element.content.text.value
+        });
+      }
+    }
+  }
+
+  handleEditorChange = (e) => {
+    this.setState({
+      textEditorContent: e.target.getContent()
+    });
+  }
+
+  handleClickSave = () => {
+    this.props.handleAlternSubmit(this.state.textEditorContent);
   }
 
   renderFormType() {
@@ -26,6 +50,34 @@ class ModalEdition extends Component {
             autoFocus={Boolean(true)}
             />
         )
+      }
+      case 'text': {
+        return (
+          <div>
+            <TinyMCE
+              content={this.props.element.content.text.value}
+              config={{
+                menubar: false,
+                height: '400',
+                plugins: [
+                  'advlist autolink lists link image charmap print preview anchor',
+                  'searchreplace visualblocks code fullscreen',
+                  'insertdatetime media table contextmenu paste code'
+                ],
+                toolbar: 'bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link'
+              }}
+              onChange={this.handleEditorChange}
+              />
+            <div className="editor-button">
+              <RaisedButton
+                primary={Boolean(true)}
+                label="Guardar"
+                fullWidth={Boolean(true)}
+                onClick={this.handleClickSave}
+                />
+            </div>
+          </div>
+        );
       }
     }
   }
@@ -48,8 +100,10 @@ class ModalEdition extends Component {
 }
 
 ModalEdition.propTypes = {
-  node: React.PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired
+  node: React.PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  handleAlternSubmit: PropTypes.func,
+  element: PropTypes.object
 };
 
 ModalEdition = reduxForm({

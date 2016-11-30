@@ -38,6 +38,19 @@ module.exports = {
           'react-hot-loader/webpack',
           'babel'
         ]
+      },
+      {
+        test: require.resolve('tinymce/tinymce'),
+        loaders: [
+          'imports?this=>window',
+          'exports?window.tinymce'
+        ]
+      },
+      {
+        test: /tinymce\/(themes|plugins)\//,
+        loaders: [
+          'imports?this=>window'
+        ]
       }
     ]
   },
