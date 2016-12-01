@@ -62,6 +62,17 @@ class ModalEdition extends Component {
             />
         );
       }
+      case 'add-bullet': {
+        return (
+          <Field
+            name="value"
+            component={TextField}
+            floatingLabelText="Bullet"
+            fullWidth={Boolean(true)}
+            autoFocus={Boolean(true)}
+            />
+        );
+      }
       case 'text': {
         return (
           <div>

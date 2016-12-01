@@ -24,7 +24,8 @@ class Quote extends Component {
       element: null,
       subElement: null,
       initialValues: null,
-      node: null
+      node: null,
+      action: null
     }
 
     this.handleToggle = this.handleToggle.bind(this);
@@ -38,7 +39,6 @@ class Quote extends Component {
 
   editTitle = (element) => {
     const {title} = element.content;
-
     this.setState({
       editing: true,
       initialValues: {...title},
@@ -48,7 +48,6 @@ class Quote extends Component {
   }
 
   editBullet = (element, listItem) => {
-
     this.setState({
       editing: true,
       initialValues: {...listItem},
@@ -58,9 +57,18 @@ class Quote extends Component {
     });
   }
 
+  addBullet = (element, listItem, action) => {
+    this.setState({
+      editing: true,
+      element: {...element},
+      subElement: listItem,
+      action: action,
+      node: 'add-bullet'
+    });
+  }
+
   editText = (element) => {
     const {title} = element;
-
     this.setState({
       editing: true,
       initialValues: {...element},
@@ -104,6 +112,15 @@ class Quote extends Component {
       }
       case 'bullet': {
         actions.setBullet(this.state.element, this.state.subElement, values.value);
+        this.setState({
+          editing: false,
+          initialValues: null,
+          element: null,
+          node: null
+        });
+      }
+      case 'add-bullet': {
+        actions.addBullet(this.state.element, this.state.subElement, values, this.state.action);
         this.setState({
           editing: false,
           initialValues: null,
@@ -166,6 +183,7 @@ class Quote extends Component {
             key={index}
             editTitle={this.editTitle}
             editBullet={this.editBullet}
+            addBullet={this.addBullet}
             />
         }
         case 'images': {

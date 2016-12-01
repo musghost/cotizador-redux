@@ -1,6 +1,7 @@
 import * as types from '../constants/ActionTypes';
 import axios from 'axios';
 import {config} from '../constants/Config';
+import uuid from 'uuid/v4';
 
 export function addTodo(text) {
   return {type: types.ADD_TODO, text};
@@ -130,6 +131,29 @@ export function setPriceItem(element, values) {
           }
         }
       }
+    }
+  }
+}
+
+export function addBullet(element, subElement, values, action) {
+  return (dispatch, getState) => {
+    const quote = getState().quote.concat([]);
+    let n = 0;
+    for(let quoteElement of quote) {
+      if(quoteElement.id === element.id) {
+        if (action === 'down') {
+          /*console.log(quoteElement);
+          quoteElement.content.list.value.splice(n + 1, 0, {
+            value: values,
+            id: uuid(),
+            comments: []
+          });
+          return dispatch({type: types.CHANGE_QUOTE, quote});*/
+        } else {
+
+        }
+      }
+      n++;
     }
   }
 }
