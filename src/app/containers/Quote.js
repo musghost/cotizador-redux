@@ -109,6 +109,7 @@ class Quote extends Component {
           element: null,
           node: null
         });
+        return;
       }
       case 'bullet': {
         actions.setBullet(this.state.element, this.state.subElement, values.value);
@@ -118,6 +119,7 @@ class Quote extends Component {
           element: null,
           node: null
         });
+        return;
       }
       case 'add-bullet': {
         actions.addBullet(this.state.element, this.state.subElement, values, this.state.action);
@@ -127,6 +129,7 @@ class Quote extends Component {
           element: null,
           node: null
         });
+        return;
       }
       case 'calendar': {
         actions.setCalendarItem(this.state.element, values);
@@ -136,6 +139,7 @@ class Quote extends Component {
           element: null,
           node: null
         });
+        return;
       }
       case 'price': {
         actions.setPriceItem(this.state.element, values);
@@ -145,6 +149,7 @@ class Quote extends Component {
           element: null,
           node: null
         });
+        return;
       }
     }
   }

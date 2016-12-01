@@ -33,7 +33,7 @@ class QuoteList extends Component {
             <button>Bajar sección</button>
             <button>Subir sección</button>
             <button onClick={this.addBullet.bind(this, element, 'down')}>Agregar abajo</button>
-            <button>Aregar arriba</button>
+            <button onClick={this.addBullet.bind(this, element, 'up')}>Aregar arriba</button>
             <button>Eliminar</button>
             <button>Actualizar origen</button>
           </div>

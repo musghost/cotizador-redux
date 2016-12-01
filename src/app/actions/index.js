@@ -142,16 +142,19 @@ export function addBullet(element, subElement, values, action) {
     for(let quoteElement of quote) {
       if(quoteElement.id === element.id) {
         if (action === 'down') {
-          /*console.log(quoteElement);
-          quoteElement.content.list.value.splice(n + 1, 0, {
-            value: values,
+          quoteElement.content.list.value.splice(n, 0, {
+            value: values.value,
             id: uuid(),
             comments: []
           });
-          return dispatch({type: types.CHANGE_QUOTE, quote});*/
         } else {
-
+          quoteElement.content.list.value.splice(n - 1, 0, {
+            value: values.value,
+            id: uuid(),
+            comments: []
+          });
         }
+        return dispatch({type: types.CHANGE_QUOTE, quote});
       }
       n++;
     }
