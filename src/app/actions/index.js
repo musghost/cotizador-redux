@@ -58,12 +58,12 @@ export function setUSer(user) {
   return {type: types.USER_LOGGED_IN, user}
 }
 
-export function getQuotes() {
+export function getQuotes(by = '') {
   return (dispatch, getState) => {
     const user = getState().user;
     dispatch({
       type: types.FETCH_QUOTES,
-      payload: axios.get(`${config.API_BASE}/users/${user.user.id}/quotes/`, {headers: {Authorization: user.auth_token}})
+      payload: axios.get(`${config.API_BASE}/users/${user.user.id}/quotes/?${by}`, {headers: {Authorization: user.auth_token}})
     });
   }
 }
@@ -152,18 +152,12 @@ export function addBullet(type, element, subElement, values, action) {
       if(quoteElement.id === element.id) {
 
         let n = 0;
-        console.log('000000');
-        console.log(quoteElement.content);
-        console.log(type);
-        console.log(typeof quoteElement.content[type].value);
-        console.log('TYPEOF')
         for(let item of quoteElement.content[type].value){
           if(item.id === subElement.id) {
             break;
           }
           n++;
         }
-        console.log(type);
         if(type === 'calendar' || type === 'price') {
           if (action === 'down') {
             quoteElement.content[type].value.splice(n + 1, 0, {

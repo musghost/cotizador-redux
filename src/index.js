@@ -37,9 +37,11 @@ render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Login}/>
-      <Route path="/sign-up" component={Register}/>
-      <Route path="/dashboard" component={UserIsAuthenticated(Dashboard)}/>
-      <Route path="/quote" component={UserIsAuthenticated(Quote)}/>
+      <Route path="/">
+        <Route path="sign-up" component={Register}/>
+        <Route path="dashboard" component={UserIsAuthenticated(Dashboard)}/>
+        <Route path="quote" component={UserIsAuthenticated(Quote)}/>
+      </Route>
     </Router>
   </Provider>,
   document.getElementById('root')

@@ -3,6 +3,11 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import moment from 'moment';
 
 class ListQuotes extends Component {
+
+  selectQuote(row) {
+    this.props.selectQuote(this.props.quotes[row]);
+  }
+
   tableBody(){
     const quotes = this.props.quotes.map((quote, i) => {
       let icon = null;
@@ -34,7 +39,7 @@ class ListQuotes extends Component {
 
   render() {
     return (
-      <Table>
+      <Table onCellClick={this.selectQuote.bind(this)} selectable={true}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow>
             <TableHeaderColumn>Nombre</TableHeaderColumn>
@@ -50,7 +55,8 @@ class ListQuotes extends Component {
 }
 
 ListQuotes.proptypes = {
-  quotes: React.PropTypes.array
+  quotes: React.PropTypes.array,
+  selectQuote: React.PropTypes.func
 };
 
 export default ListQuotes;
