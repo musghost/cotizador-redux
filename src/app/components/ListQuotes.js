@@ -19,7 +19,7 @@ class ListQuotes extends Component {
               <span>{quote.project}</span>
             </div>
           </TableRowColumn>
-          <TableRowColumn>{quote.user_id}</TableRowColumn>
+          <TableRowColumn>{quote.user.name} <small>{quote.user.email}</small></TableRowColumn>
           <TableRowColumn>{moment(quote.updated_at).format('DD MMM, YYYY')}</TableRowColumn>
           <TableRowColumn>{moment(quote.created_at).format('DD MMM, YYYY')}</TableRowColumn>
         </TableRow>

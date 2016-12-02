@@ -15,12 +15,24 @@ class QuotePrice extends Component {
     this.props.editPrice(this.props.value, item);
   }
 
+  addBullet = (listItem, action) => {
+    this.props.addBullet('price', this.props.value, listItem, action);
+  }
+
+  moveBullet = (listItem, action) => {
+    this.props.moveBullet('price', this.props.value, listItem, action);
+  }
+
+  removeBullet = (listItem) => {
+    this.props.removeBullet('price', this.props.value, listItem);
+  }
+
   render() {
-    const {title, text, concepts} = this.props.value.content;
+    const {title, text, price} = this.props.value.content;
 
     let total = 0;
 
-    const renderedRows = concepts.value.map((element, index) => {
+    const renderedRows = price.value.map((element, index) => {
       total += parseFloat(element.price);
       return (
         <TableRow key={index}>
@@ -29,9 +41,11 @@ class QuotePrice extends Component {
               {element.concept}
               <div className="up-menu">
                 <button onClick={this.editPrice.bind(this, element)}>Editar</button>
-                <button>Bajar</button>
-                <button>Subir</button>
-                <button>Eliminar</button>
+                <button onClick={this.moveBullet.bind(this, element, 'down')}>Bajar</button>
+                <button onClick={this.moveBullet.bind(this, element, 'up')}>Subir</button>
+                <button onClick={this.addBullet.bind(this, element, 'down')}>Agregar abajo</button>
+                <button onClick={this.addBullet.bind(this, element, 'up')}>Aregar arriba</button>
+                <button onClick={this.removeBullet.bind(this, element)}>Eliminar</button>
                 <button>Actualizar origen</button>
               </div>
             </div>
@@ -90,7 +104,10 @@ class QuotePrice extends Component {
 QuotePrice.propTypes = {
   value: React.PropTypes.object,
   editTitle: React.PropTypes.func,
-  editPrice: React.PropTypes.func
+  editPrice: React.PropTypes.func,
+  addBullet: React.PropTypes.func,
+  moveBullet: React.PropTypes.func,
+  removeBullet: React.PropTypes.func
 };
 
 export default QuotePrice;

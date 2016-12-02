@@ -10,6 +10,18 @@ class QuoteCalendar extends Component {
     this.props.editCalendar(this.props.value, item)
   }
 
+  addBullet = (listItem, action) => {
+    this.props.addBullet('calendar', this.props.value, listItem, action);
+  }
+
+  moveBullet = (listItem, action) => {
+    this.props.moveBullet('calendar', this.props.value, listItem, action);
+  }
+
+  removeBullet = (listItem) => {
+    this.props.removeBullet('calendar', this.props.value, listItem);
+  }
+
   render() {
     const {title, calendar} = this.props.value.content;
 
@@ -25,14 +37,16 @@ class QuoteCalendar extends Component {
               <div className="up-menu">
                 <button onClick={this.editCalendar.bind(this, element)}>Editar</button>
                 <button>Guardar</button>
-                <button>Bajar sección</button>
-                <button>Subir sección</button>
-                <button>Eliminar</button>
+                <button onClick={this.moveBullet.bind(this, element, 'down')}>Bajar</button>
+                <button onClick={this.moveBullet.bind(this, element, 'up')}>Subir</button>
+                <button onClick={this.removeBullet.bind(this, element)}>Eliminar</button>
+                <button onClick={this.addBullet.bind(this, element, 'down')}>Agregar abajo</button>
+                <button onClick={this.addBullet.bind(this, element, 'up')}>Aregar arriba</button>
                 <button>Actualizar origen</button>
               </div>
             </div>
           </td>
-          {(from > 1) ? <td colSpan={from - 1}></td> : null}
+          {(from > 1) ? <td colSpan={from}></td> : null}
           <td className="selected" colSpan={length}>{length} semanas</td>
           <td colSpan={calendar.total - length - from + 1}></td>
         </tr>
@@ -73,7 +87,10 @@ class QuoteCalendar extends Component {
 QuoteCalendar.propTypes = {
   value: React.PropTypes.object,
   editTitle: React.PropTypes.func,
-  editCalendar: React.PropTypes.func
+  editCalendar: React.PropTypes.func,
+  addBullet: React.PropTypes.func,
+  moveBullet: React.PropTypes.func,
+  removeBullet: React.PropTypes.func
 };
 
 export default QuoteCalendar;

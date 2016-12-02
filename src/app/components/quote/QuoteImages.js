@@ -10,6 +10,22 @@ class QuoteImages extends Component {
     this.props.editTitle(this.props.value);
   }
 
+  editBullet = (listItem) => {
+    this.props.editBullet('images', this.props.value, listItem);
+  }
+
+  addBullet = (listItem, action) => {
+    this.props.addBullet('images', this.props.value, listItem, action);
+  }
+
+  moveBullet = (listItem, action) => {
+    this.props.moveBullet('images', this.props.value, listItem, action);
+  }
+
+  removeBullet = (listItem) => {
+    this.props.removeBullet('images', this.props.value, listItem);
+  }
+
   render() {
     const {title, text, images} = this.props.value.content;
 
@@ -18,11 +34,12 @@ class QuoteImages extends Component {
         <div className="has-up-menu" key={index}>
           <img src={element.value} />
           <div className="up-menu">
-            <button>Editar</button>
-            <button>Guardar</button>
-            <button>Bajar sección</button>
-            <button>Subir sección</button>
-            <button>Eliminar</button>
+            <button onClick={this.editBullet.bind(this, element)}>Editar</button>
+            <button onClick={this.moveBullet.bind(this, element, 'down')}>Bajar</button>
+            <button onClick={this.moveBullet.bind(this, element, 'up')}>Subir</button>
+            <button onClick={this.addBullet.bind(this, element, 'down')}>Agregar abajo</button>
+            <button onClick={this.addBullet.bind(this, element, 'up')}>Aregar arriba</button>
+            <button onClick={this.removeBullet.bind(this, element)}>Eliminar</button>
             <button>Actualizar origen</button>
           </div>
         </div>
@@ -63,7 +80,11 @@ class QuoteImages extends Component {
 
 QuoteImages.propTypes = {
   value: React.PropTypes.object,
-  editTitle: React.PropTypes.func
+  editTitle: React.PropTypes.func,
+  editBullet: React.PropTypes.func,
+  addBullet: React.PropTypes.func,
+  moveBullet: React.PropTypes.func,
+  removeBullet: React.PropTypes.func
 };
 
 export default QuoteImages;

@@ -1,3 +1,4 @@
+import {browserHistory} from 'react-router';
 import {
   FETCH_QUOTES_PENDING,
   FETCH_QUOTES_FULFILLED,
@@ -10,7 +11,7 @@ const initialState = {
   errors: null
 };
 
-export default function login(state = initialState, action) {
+export default function quotes(state = initialState, action) {
   switch (action.type) {
 
     case FETCH_QUOTES_PENDING:
@@ -27,6 +28,9 @@ export default function login(state = initialState, action) {
       };
 
     case FETCH_QUOTES_REJECTED:
+      if(action.payload.response.status == 401) {
+        return browserHistory.push('/');
+      }
       return {
         ...state,
         loading: false,

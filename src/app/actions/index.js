@@ -43,6 +43,16 @@ export function addServerResponseLogin(errors) {
   return {type: types.ADD_LOGIN_ERRORS, errors};
 }
 
+export function logout() {
+  return (dispatch, getState) => {
+    const user = getState().user;
+    dispatch({
+      type: types.LOGOUT,
+      payload: axios.delete(`${config.API_BASE}/users/sign_out/`, {headers: {Authorization: user.auth_token}})
+    });
+  }
+}
+
 export function setUSer(user) {
   localStorage.setItem('user', JSON.stringify(user));
   return {type: types.USER_LOGGED_IN, user}
@@ -84,12 +94,12 @@ export function setText(element, newValue) {
   }
 }
 
-export function setBullet(element, listItem, newValue) {
+export function setBullet(type, element, listItem, newValue) {
   return (dispatch, getState) => {
     const quote = getState().quote.concat([]);
     for(let quoteElement of quote){
       if(quoteElement.id === element.id) {
-        for(let item of quoteElement.content.list.value) {
+        for(let item of quoteElement.content[type].value) {
           if(listItem.id === item.id) {
             item.value = newValue;
             return dispatch({type: types.CHANGE_QUOTE, quote});
@@ -123,7 +133,7 @@ export function setPriceItem(element, values) {
     const quote = getState().quote.concat([]);
     for(let quoteElement of quote) {
       if(quoteElement.id === element.id) {
-        for(let item of quoteElement.content.concepts.value) {
+        for(let item of quoteElement.content.price.value) {
           if(values.id === item.id) {
             item.concept = values.concept;
             item.price = values.price;
@@ -135,28 +145,114 @@ export function setPriceItem(element, values) {
   }
 }
 
-export function addBullet(element, subElement, values, action) {
+export function addBullet(type, element, subElement, values, action) {
   return (dispatch, getState) => {
     const quote = getState().quote.concat([]);
-    let n = 0;
     for(let quoteElement of quote) {
       if(quoteElement.id === element.id) {
-        if (action === 'down') {
-          quoteElement.content.list.value.splice(n, 0, {
-            value: values.value,
-            id: uuid(),
-            comments: []
-          });
+
+        let n = 0;
+        console.log('000000');
+        console.log(quoteElement.content);
+        console.log(type);
+        console.log(typeof quoteElement.content[type].value);
+        console.log('TYPEOF')
+        for(let item of quoteElement.content[type].value){
+          if(item.id === subElement.id) {
+            break;
+          }
+          n++;
+        }
+        console.log(type);
+        if(type === 'calendar' || type === 'price') {
+          if (action === 'down') {
+            quoteElement.content[type].value.splice(n + 1, 0, {
+              ...values,
+              id: uuid(),
+              comments: []
+            });
+          } else {
+            quoteElement.content[type].value.splice(n, 0, {
+              ...values,
+              id: uuid(),
+              comments: []
+            });
+          }
         } else {
-          quoteElement.content.list.value.splice(n - 1, 0, {
-            value: values.value,
-            id: uuid(),
-            comments: []
-          });
+          if (action === 'down') {
+            quoteElement.content[type].value.splice(n + 1, 0, {
+              value: values.value,
+              id: uuid(),
+              comments: []
+            });
+          } else {
+            quoteElement.content[type].value.splice(n, 0, {
+              value: values.value,
+              id: uuid(),
+              comments: []
+            });
+          }
         }
         return dispatch({type: types.CHANGE_QUOTE, quote});
       }
-      n++;
     }
+  }
+}
+
+export function moveBullet(type, element, subElement, action) {
+  return (dispatch, getState) => {
+    const quote = getState().quote.concat([]);
+    for(let quoteElement of quote) {
+      if(quoteElement.id === element.id) {
+        let n = 0;
+        for(let item of quoteElement.content[type].value){
+          if(item.id === subElement.id) {
+            break;
+          }
+          n++;
+        }
+
+        if(n == 0 && action === 'up') {
+          return dispatch({type: types.CHANGE_QUOTE, quote});
+        } else if(n == quoteElement.content[type].value.length && action === 'down') {
+          return dispatch({type: types.CHANGE_QUOTE, quote});
+        }
+
+        if(action === 'down') {
+          const removed = quoteElement.content[type].value.splice(n, 1)[0];
+          quoteElement.content[type].value.splice(n + 1, 0, removed);
+        } else {
+          const removed = quoteElement.content[type].value.splice(n, 1)[0];
+          quoteElement.content[type].value.splice(n - 1, 0, removed);
+        }
+        return dispatch({type: types.CHANGE_QUOTE, quote});
+      }
+    }
+  }
+}
+
+export function removeBullet(type, element, subElement) {
+  return (dispatch, getState) => {
+    const quote = getState().quote.concat([]);
+    for(let quoteElement of quote) {
+      if(quoteElement.id === element.id) {
+        let n = 0;
+        for(let item of quoteElement.content[type].value){
+          if(item.id === subElement.id) {
+            break;
+          }
+          n++;
+        }
+        quoteElement.content[type].value.splice(n, 1);
+        return dispatch({type: types.CHANGE_QUOTE, quote});
+      }
+    }
+  }
+}
+
+export function moveSection(element, direction) {
+  return (dispatch, getState) => {
+    const quote = getState().quote.concat([]);
+
   }
 }

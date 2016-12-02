@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import * as AllActions from '../actions/index';
+import * as allActions from '../actions/index';
 import ListQuotes from '../components/ListQuotes';
 import {browserHistory} from 'react-router';
 
@@ -31,12 +31,19 @@ class Dashboard extends Component {
     browserHistory.push('/quote');
   }
 
+  logout = () => {
+    const {actions} = this.props;
+    actions.logout();
+    browserHistory.push('/');
+  }
+
   render() {
     const {quotes, actions} = this.props;
     return (
       <div className="quotations">
         <MuiThemeProvider>
           <div>
+            
             <Toolbar>
               <ToolbarGroup firstChild={true}>
                 <TextField
@@ -91,6 +98,14 @@ class Dashboard extends Component {
                   <List>
                     <ListItem primaryText="Orígenes" leftIcon={<i className="fa fa-cube" aria-hidden="true"></i>} />
                   </List>
+                  <Divider />
+                  <List>
+                    <ListItem
+                      primaryText="Salir"
+                      leftIcon={<i className="fa fa-sign-out" aria-hidden="true"></i>}
+                      onClick={this.logout}
+                      />
+                  </List>
                 </div>
                 <div className="col-sm-10">
                   <ListQuotes quotes={quotes.quotes} />
@@ -117,7 +132,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(AllActions, dispatch)
+    actions: bindActionCreators(allActions, dispatch)
   };
 }
 

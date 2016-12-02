@@ -31,6 +31,15 @@ class Quote extends Component {
     this.handleToggle = this.handleToggle.bind(this);
   }
 
+  clearState = () => {
+    this.setState({
+      editing: false,
+      initialValues: null,
+      element: null,
+      node: null
+    });
+  }
+
   handleToggle() {
     this.setState({
       open: !this.state.open
@@ -47,24 +56,35 @@ class Quote extends Component {
     });
   }
 
-  editBullet = (element, listItem) => {
+  editBullet = (type, element, listItem) => {
     this.setState({
       editing: true,
       initialValues: {...listItem},
       element: {...element},
       subElement: listItem,
-      node: 'bullet'
+      node: type + '-bullet'
     });
   }
 
-  addBullet = (element, listItem, action) => {
+  addBullet = (type, element, listItem, action) => {
+    console.log(type);
     this.setState({
       editing: true,
       element: {...element},
       subElement: listItem,
       action: action,
-      node: 'add-bullet'
+      node: type + '-add-bullet'
     });
+  }
+
+  moveBullet = (type, element, listItem, action) => {
+    const {actions} = this.props;
+    actions.moveBullet(type, element, listItem, action);
+  }
+
+  removeBullet = (type, element, listItem) => {
+    const {actions} = this.props;
+    actions.removeBullet(type, element, listItem);
   }
 
   editText = (element) => {
@@ -103,52 +123,57 @@ class Quote extends Component {
     switch(this.state.node) {
       case 'title': {
         actions.setTitle(this.state.element, values.value);
-        this.setState({
-          editing: false,
-          initialValues: null,
-          element: null,
-          node: null
-        });
+        this.clearState();
         return;
       }
-      case 'bullet': {
-        actions.setBullet(this.state.element, this.state.subElement, values.value);
-        this.setState({
-          editing: false,
-          initialValues: null,
-          element: null,
-          node: null
-        });
+      case 'list-bullet': {
+        actions.setBullet('list', this.state.element, this.state.subElement, values.value);
+        this.clearState();
         return;
       }
-      case 'add-bullet': {
-        actions.addBullet(this.state.element, this.state.subElement, values, this.state.action);
-        this.setState({
-          editing: false,
-          initialValues: null,
-          element: null,
-          node: null
-        });
+      case 'list-add-bullet': {
+        actions.addBullet('list', this.state.element, this.state.subElement, values, this.state.action);
+        this.clearState();
+        return;
+      }
+      case 'images-bullet': {
+        actions.setBullet('images', this.state.element, this.state.subElement, values.value);
+        this.clearState();
+        return;
+      }
+      case 'images-add-bullet': {
+        actions.addBullet('images', this.state.element, this.state.subElement, values, this.state.action);
+        this.clearState();
+        return;
+      }
+      case 'calendar-bullet': {
+        actions.setBullet('calendar', this.state.element, this.state.subElement, values);
+        this.clearState();
+        return;
+      }
+      case 'calendar-add-bullet': {
+        actions.addBullet('calendar', this.state.element, this.state.subElement, values, this.state.action);
+        this.clearState();
         return;
       }
       case 'calendar': {
         actions.setCalendarItem(this.state.element, values);
-        this.setState({
-          editing: false,
-          initialValues: null,
-          element: null,
-          node: null
-        });
+        this.clearState();
+        return;
+      }
+      case 'price-bullet': {
+        actions.setBullet('price', this.state.element, this.state.subElement, values);
+        this.clearState();
+        return;
+      }
+      case 'price-add-bullet': {
+        actions.addBullet('price', this.state.element, this.state.subElement, values, this.state.action);
+        this.clearState();
         return;
       }
       case 'price': {
         actions.setPriceItem(this.state.element, values);
-        this.setState({
-          editing: false,
-          initialValues: null,
-          element: null,
-          node: null
-        });
+        this.clearState();
         return;
       }
     }
@@ -160,12 +185,7 @@ class Quote extends Component {
     switch(this.state.node) {
       case 'text': {
         actions.setText(this.state.element, content);
-        this.setState({
-          editing: false,
-          initialValues: null,
-          element: null,
-          node: null
-        });
+        this.clearState();
       }
     }
   }
@@ -189,6 +209,8 @@ class Quote extends Component {
             editTitle={this.editTitle}
             editBullet={this.editBullet}
             addBullet={this.addBullet}
+            moveBullet={this.moveBullet}
+            removeBullet={this.removeBullet}
             />
         }
         case 'images': {
@@ -196,6 +218,10 @@ class Quote extends Component {
             value={element}
             key={index}
             editTitle={this.editTitle}
+            editBullet={this.editBullet}
+            addBullet={this.addBullet}
+            moveBullet={this.moveBullet}
+            removeBullet={this.removeBullet}
             />
         }
         case 'calendar': {
@@ -204,6 +230,9 @@ class Quote extends Component {
             key={index}
             editTitle={this.editTitle}
             editCalendar={this.editCalendar}
+            addBullet={this.addBullet}
+            moveBullet={this.moveBullet}
+            removeBullet={this.removeBullet}
             />
         }
         case 'price': {
@@ -212,6 +241,9 @@ class Quote extends Component {
             key={index}
             editTitle={this.editTitle}
             editPrice={this.editPrice}
+            addBullet={this.addBullet}
+            moveBullet={this.moveBullet}
+            removeBullet={this.removeBullet}
             />
         }
       }

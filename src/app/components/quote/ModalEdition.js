@@ -39,6 +39,7 @@ class ModalEdition extends Component {
 
   renderFormType() {
     const node = this.props.node;
+    console.log(node);
     switch (node) {
       case 'title': {
         return (
@@ -48,10 +49,12 @@ class ModalEdition extends Component {
             floatingLabelText="Título"
             fullWidth={Boolean(true)}
             autoFocus={Boolean(true)}
+            autoComplete="off"
             />
         );
       }
-      case 'bullet': {
+      case 'list-bullet': 
+      case 'images-bullet':{
         return (
           <Field
             name="value"
@@ -59,10 +62,12 @@ class ModalEdition extends Component {
             floatingLabelText="Bullet"
             fullWidth={Boolean(true)}
             autoFocus={Boolean(true)}
+            autoComplete="off"
             />
         );
       }
-      case 'add-bullet': {
+      case 'list-add-bullet':
+      case 'images-add-bullet': {
         return (
           <Field
             name="value"
@@ -70,6 +75,7 @@ class ModalEdition extends Component {
             floatingLabelText="Bullet"
             fullWidth={Boolean(true)}
             autoFocus={Boolean(true)}
+            autoComplete="off"
             />
         );
       }
@@ -101,7 +107,8 @@ class ModalEdition extends Component {
           </div>
         );
       }
-      case 'calendar': {
+      case 'calendar':
+      case 'calendar-add-bullet': {
         return (
           <div>
             <div>
@@ -111,6 +118,7 @@ class ModalEdition extends Component {
                 floatingLabelText="Concepto"
                 fullWidth={Boolean(true)}
                 autoFocus={Boolean(true)}
+                autoComplete="off"
                 />
             </div>
             <div>
@@ -119,6 +127,7 @@ class ModalEdition extends Component {
                 component={TextField}
                 floatingLabelText="Desde"
                 fullWidth={Boolean(true)}
+                autoComplete="off"
                 />
             </div>
             <div>
@@ -127,6 +136,7 @@ class ModalEdition extends Component {
                 component={TextField}
                 floatingLabelText="Hasta"
                 fullWidth={Boolean(true)}
+                autoComplete="off"
                 />
             </div>
             <div>
@@ -140,7 +150,8 @@ class ModalEdition extends Component {
           </div>
         );
       }
-      case 'price': {
+      case 'price': 
+      case 'price-add-bullet': {
         return (
           <div>
             <div>
