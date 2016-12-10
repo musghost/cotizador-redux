@@ -244,6 +244,19 @@ export function removeBullet(type, element, subElement) {
 export function moveSection(element, direction) {
   return (dispatch, getState) => {
     const quote = getState().quote.concat([]);
-
+    let n = 0;
+    for(let quoteElement of quote) {
+      if(quoteElement.id === element.id) {
+        if(direction === 'up' && n > 0) {
+          const removed = quote.splice(n, 1)[0];
+          quote.splice(n - 1, 0, removed);
+        } else if(direction === 'down' && n < (quote.length - 1)) {
+          const removed = quote.splice(n, 1)[0];
+          quote.splice(n + 1, 0, removed);
+        }
+        return dispatch({type: types.CHANGE_QUOTE, quote});
+      }
+      n++;
+    }
   }
 }

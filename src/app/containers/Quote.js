@@ -67,7 +67,6 @@ class Quote extends Component {
   }
 
   addBullet = (type, element, listItem, action) => {
-    console.log(type);
     this.setState({
       editing: true,
       element: {...element},
@@ -80,6 +79,11 @@ class Quote extends Component {
   moveBullet = (type, element, listItem, action) => {
     const {actions} = this.props;
     actions.moveBullet(type, element, listItem, action);
+  }
+
+  moveSection = (element, direction) => {
+    const {actions} = this.props;
+    actions.moveSection(element, direction);
   }
 
   removeBullet = (type, element, listItem) => {
@@ -200,6 +204,7 @@ class Quote extends Component {
             key={index}
             editTitle={this.editTitle}
             editText={this.editText}
+            moveSection={this.moveSection}
             />
         }
         case 'list': {
