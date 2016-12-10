@@ -41,8 +41,6 @@ class QuoteText extends Component {
           <div className="up-menu">
             <button onClick={this.editText}>Editar</button>
             <button>Guardar</button>
-            <button>Bajar sección</button>
-            <button>Subir sección</button>
             <button>Eliminar</button>
             <button>Actualizar origen</button>
           </div>

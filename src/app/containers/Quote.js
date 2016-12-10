@@ -216,6 +216,7 @@ class Quote extends Component {
             addBullet={this.addBullet}
             moveBullet={this.moveBullet}
             removeBullet={this.removeBullet}
+            moveSection={this.moveSection}
             />
         }
         case 'images': {
@@ -227,6 +228,7 @@ class Quote extends Component {
             addBullet={this.addBullet}
             moveBullet={this.moveBullet}
             removeBullet={this.removeBullet}
+            moveSection={this.moveSection}
             />
         }
         case 'calendar': {
@@ -238,6 +240,7 @@ class Quote extends Component {
             addBullet={this.addBullet}
             moveBullet={this.moveBullet}
             removeBullet={this.removeBullet}
+            moveSection={this.moveSection}
             />
         }
         case 'price': {
@@ -249,6 +252,7 @@ class Quote extends Component {
             addBullet={this.addBullet}
             moveBullet={this.moveBullet}
             removeBullet={this.removeBullet}
+            moveSection={this.moveSection}
             />
         }
       }
