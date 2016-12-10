@@ -4,8 +4,25 @@ import moment from 'moment';
 
 class ListQuotes extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: null
+    }
+  }
+
   selectQuote(row) {
-    this.props.selectQuote(this.props.quotes[row]);
+    if(row == this.state.selected) {
+      this.setState({
+        selected: null
+      });
+      this.props.selectQuote(null);
+    } else {
+      this.setState({
+        selected: row
+      });
+      this.props.selectQuote(this.props.quotes[row]);
+    }
   }
 
   tableBody(){
@@ -16,19 +33,36 @@ class ListQuotes extends Component {
       } else {
         icon = <i className="fa fa-file-text-o" aria-hidden="true"></i>;
       }
-      return (
-        <TableRow key={i}>
-          <TableRowColumn>
-            <div className="doc-intro">
-              <div>{icon}</div>
-              <span>{quote.project}</span>
-            </div>
-          </TableRowColumn>
-          <TableRowColumn>{quote.user.name} <small>{quote.user.email}</small></TableRowColumn>
-          <TableRowColumn>{moment(quote.updated_at).format('DD MMM, YYYY')}</TableRowColumn>
-          <TableRowColumn>{moment(quote.created_at).format('DD MMM, YYYY')}</TableRowColumn>
-        </TableRow>
-      );
+
+      if (this.state.selected == i) {
+        return (
+          <TableRow key={i}>
+            <TableRowColumn>
+              <div className="doc-intro">
+                <div>{icon}</div>
+                <span><strong>{quote.project}</strong></span>
+              </div>
+            </TableRowColumn>
+            <TableRowColumn><strong>{quote.user.name} <small>{quote.user.email}</small></strong></TableRowColumn>
+            <TableRowColumn><strong>{moment(quote.updated_at).format('DD MMM, YYYY')}</strong></TableRowColumn>
+            <TableRowColumn><strong>{moment(quote.created_at).format('DD MMM, YYYY')}</strong></TableRowColumn>
+          </TableRow>
+        );
+      } else {
+        return (
+          <TableRow key={i}>
+            <TableRowColumn>
+              <div className="doc-intro">
+                <div>{icon}</div>
+                <span>{quote.project}</span>
+              </div>
+            </TableRowColumn>
+            <TableRowColumn>{quote.user.name} <small>{quote.user.email}</small></TableRowColumn>
+            <TableRowColumn>{moment(quote.updated_at).format('DD MMM, YYYY')}</TableRowColumn>
+            <TableRowColumn>{moment(quote.created_at).format('DD MMM, YYYY')}</TableRowColumn>
+          </TableRow>
+        );
+      }
     });
     return (
       <TableBody displayRowCheckbox={false}>
