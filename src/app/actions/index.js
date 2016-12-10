@@ -2,6 +2,7 @@ import * as types from '../constants/ActionTypes';
 import axios from 'axios';
 import {config} from '../constants/Config';
 import uuid from 'uuid/v4';
+import {browserHistory} from 'react-router';
 
 export function addTodo(text) {
   return {type: types.ADD_TODO, text};
@@ -44,13 +45,9 @@ export function addServerResponseLogin(errors) {
 }
 
 export function logout() {
-  return (dispatch, getState) => {
-    const user = getState().user;
-    dispatch({
-      type: types.LOGOUT,
-      payload: axios.delete(`${config.API_BASE}/users/sign_out/`, {headers: {Authorization: user.auth_token}})
-    });
-  }
+  localStorage.removeItem('user');
+  browserHistory.push('/');
+  return {type: types.LOGOUT}
 }
 
 export function setUSer(user) {

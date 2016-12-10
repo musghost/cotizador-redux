@@ -52,7 +52,6 @@ class Dashboard extends Component {
   logout = () => {
     const {actions} = this.props;
     actions.logout();
-    browserHistory.push('/');
   }
 
   render() {
