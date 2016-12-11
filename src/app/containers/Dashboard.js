@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as allActions from '../actions/index';
 import ListQuotes from '../components/ListQuotes';
+import ListUsers from '../components/ListUsers';
 import {browserHistory} from 'react-router';
 
 import {List, ListItem} from 'material-ui/List';
@@ -17,7 +18,8 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       quoteSelected: null,
-      word: ''
+      word: '',
+      showQuotes: true
     };
   }
 
@@ -52,6 +54,12 @@ class Dashboard extends Component {
   logout = () => {
     const {actions} = this.props;
     actions.logout();
+  }
+
+  getUsers = () => {
+    this.setState({
+      showQuotes: false
+    });
   }
 
   render() {
@@ -112,6 +120,14 @@ class Dashboard extends Component {
                   <Divider />
                   <List>
                     <ListItem
+                      primaryText="Usuarios"
+                      leftIcon={<i className="fa fa-users" aria-hidden="true"></i>}
+                      onClick={this.getUsers}
+                      />
+                  </List>
+                  <Divider />
+                  <List>
+                    <ListItem
                       primaryText="Salir"
                       leftIcon={<i className="fa fa-sign-out" aria-hidden="true"></i>}
                       onClick={this.logout}
@@ -119,10 +135,11 @@ class Dashboard extends Component {
                   </List>
                 </div>
                 <div className="col-sm-10">
-                  <ListQuotes
-                    selectQuote={this.selectQuote}
-                    quotes={orderedQuotes}
-                    />
+                  {this.state.showQuotes ? (
+                    <ListQuotes selectQuote={this.selectQuote} quotes={orderedQuotes}/>
+                  ) : (
+                    <ListUsers/>
+                  )}
                 </div>
               </div>
             </div>

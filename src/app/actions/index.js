@@ -260,3 +260,13 @@ export function moveSection(element, direction) {
     }
   }
 }
+
+export function getUsers(by = '') {
+  return (dispatch, getState) => {
+    const user = getState().user;
+    dispatch({
+      type: types.FETCH_USERS,
+      payload: axios.get(`${config.API_BASE}/users`, {headers: {Authorization: user.auth_token}})
+    });
+  }
+}
