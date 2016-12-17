@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {EditQuote} from '../components/EditQuote';
+import Loading from '../components/Loading';
+import Errors from '../components/Errors';
 import * as Actions from '../actions/index';
 
 import Paper from  'material-ui/Paper';
@@ -13,7 +15,6 @@ import QuoteImages from '../components/quote/QuoteImages';
 import QuoteCalendar from '../components/quote/QuoteCalendar';
 import QuotePrice from '../components/quote/QuotePrice';
 import ModalEdition from '../components/quote/ModalEdition';
-//import CommentDrawer from '../components/quote/CommentDrawer';
 
 class Quote extends Component {
   constructor(props) {
@@ -29,6 +30,11 @@ class Quote extends Component {
     }
 
     this.handleToggle = this.handleToggle.bind(this);
+  }
+
+  componentWillMount() {
+    const {actions} = this.props;
+    actions.getQuote(this.props.params.id);
   }
 
   clearState = () => {
@@ -196,7 +202,7 @@ class Quote extends Component {
 
   render() {
     const {quote, actions} = this.props;
-    const elements = quote.map((element, index) => {
+    let elements = quote.quote.map((element, index) => {
       switch(element.type) {
         case 'text': {
           return <QuoteText
@@ -258,6 +264,13 @@ class Quote extends Component {
       }
       return null;
     });
+
+
+    if(elements.length < 1 && this.props.quote.loading) {
+      elements = <Loading/>
+    } else if(this.props.quote.errors) {
+      elements = <Errors errors={this.props.quote.errors}/>
+    }
     return (
       <MuiThemeProvider>
         <div className="quotation-view">
@@ -282,7 +295,7 @@ class Quote extends Component {
 }
 
 Quote.propTypes = {
-  quote: PropTypes.array.isRequired,
+  quote: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 

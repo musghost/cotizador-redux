@@ -270,3 +270,13 @@ export function getUsers(by = '') {
     });
   }
 }
+
+export function getQuote(id) {
+  return (dispatch, getState) => {
+    const user = getState().user;
+    dispatch({
+      type: types.FETCH_QUOTE,
+      payload: axios.get(`${config.API_BASE}/quotes/${id}`, {headers: {Authorization: user.auth_token}})
+    });
+  }
+}
