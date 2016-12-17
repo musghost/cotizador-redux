@@ -2,7 +2,10 @@ import {
   CHANGE_QUOTE,
   FETCH_QUOTE_PENDING,
   FETCH_QUOTE_FULFILLED,
-  FETCH_QUOTE_REJECTED
+  FETCH_QUOTE_REJECTED,
+  SAVE_QUOTE_PENDING,
+  SAVE_QUOTE_FULFILLED,
+  SAVE_QUOTE_REJECTED
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -45,6 +48,32 @@ export default function quote(state = initialState, action) {
         errors: action.payload.response.data
       };
     }
+
+    case SAVE_QUOTE_PENDING: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+
+    case SAVE_QUOTE_FULFILLED: {
+      return {
+        ...state,
+        loading: false
+      };
+    }
+
+    case SAVE_QUOTE_REJECTED: {
+      return {
+        ...state,
+        loading: false,
+        errors: {
+          error: 'Error en el servidor'
+        }
+      };
+    }
+
+
 
     default:
       return state;

@@ -8,6 +8,7 @@ import * as Actions from '../actions/index';
 
 import Paper from  'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 
 import QuoteText from '../components/quote/QuoteText';
 import QuoteList from '../components/quote/QuoteList';
@@ -35,6 +36,17 @@ class Quote extends Component {
   componentWillMount() {
     const {actions} = this.props;
     actions.getQuote(this.props.params.id);
+  }
+
+  handleSaveQuote = () => {
+    const {actions} = this.props;
+    const id = this.props.params.id;
+    const quote = {
+      content: {
+        quote: this.props.quote.quote
+      }
+    };
+    actions.saveQuote(id, quote);
   }
 
   clearState = () => {
@@ -265,15 +277,27 @@ class Quote extends Component {
       return null;
     });
 
-
-    if(elements.length < 1 && this.props.quote.loading) {
-      elements = <Loading/>
-    } else if(this.props.quote.errors) {
-      elements = <Errors errors={this.props.quote.errors}/>
-    }
     return (
       <MuiThemeProvider>
         <div className="quotation-view">
+          <div className="floating-menu">
+            <div>
+              <FloatingActionButton
+                href="/#/dashboard"
+                >
+                <i className="fa fa-long-arrow-left"></i>
+              </FloatingActionButton>
+            </div>
+            <div>
+              <FloatingActionButton
+                onClick={this.handleSaveQuote}
+                >
+                <i className="fa fa-floppy-o"></i>
+              </FloatingActionButton>
+            </div>
+          </div>
+          {this.props.quote.loading ? <Loading/> : null}
+          {this.props.quote.errors ? <Errors errors={this.props.quote.errors}/> : null}
           <Paper zDepth={1}>
             <div className="quotation-view-wrapper">
               {elements}

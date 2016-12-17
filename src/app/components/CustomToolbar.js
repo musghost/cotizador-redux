@@ -7,16 +7,17 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
-import {browserHistory} from 'react-router';
+import {browserHistory, hashHistory} from 'react-router';
 
 class CustomToolbar extends Component {
 
   handleNewQuote() {
-    browserHistory.push('/quote');
+    hashHistory.push('/quote');
   }
 
-  goToQuote() {
-    browserHistory.push('/quote');
+  goToQuote = () => {
+    const quoteSelected = this.props.quoteSelected;
+    hashHistory.push(`/quote/${quoteSelected.id}`);
   }
 
   changeSearch = (e) => {
@@ -44,7 +45,10 @@ class CustomToolbar extends Component {
         </ToolbarGroup>
         <ToolbarGroup>
           <ToolbarTitle text={project} />
-          <IconButton tooltip="Editar" disabled={toolbarDisabled} onClick={this.goToQuote}>
+          <IconButton
+            tooltip="Editar"
+            disabled={toolbarDisabled}
+            onClick={this.goToQuote}>
             <span className="font-icon">
               <i className="fa fa-pencil" aria-hidden="true"></i>
             </span>

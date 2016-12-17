@@ -67,7 +67,7 @@ export function getQuotes(by = '') {
 
 export function setTitle(element, newValue) {
   return (dispatch, getState) => {
-    const quote = getState().quote.concat([]);
+    const quote = getState().quote.quote.concat([]);
     for(let quoteElement of quote){
       if(quoteElement.id === element.id) {
         quoteElement.content.title.value = newValue;
@@ -80,7 +80,7 @@ export function setTitle(element, newValue) {
 
 export function setText(element, newValue) {
   return (dispatch, getState) => {
-    const quote = getState().quote.concat([]);
+    const quote = getState().quote.quote.concat([]);
     for(let quoteElement of quote){
       if(quoteElement.id === element.id) {
         quoteElement.content.text.value = newValue;
@@ -93,7 +93,7 @@ export function setText(element, newValue) {
 
 export function setBullet(type, element, listItem, newValue) {
   return (dispatch, getState) => {
-    const quote = getState().quote.concat([]);
+    const quote = getState().quote.quote.concat([]);
     for(let quoteElement of quote){
       if(quoteElement.id === element.id) {
         for(let item of quoteElement.content[type].value) {
@@ -109,7 +109,7 @@ export function setBullet(type, element, listItem, newValue) {
 
 export function setCalendarItem(element, values) {
   return (dispatch, getState) => {
-    const quote = getState().quote.concat([]);
+    const quote = getState().quote.quote.concat([]);
     for(let quoteElement of quote) {
       if(quoteElement.id === element.id) {
         for(let item of quoteElement.content.calendar.value) {
@@ -127,7 +127,7 @@ export function setCalendarItem(element, values) {
 
 export function setPriceItem(element, values) {
   return (dispatch, getState) => {
-    const quote = getState().quote.concat([]);
+    const quote = getState().quote.quote.concat([]);
     for(let quoteElement of quote) {
       if(quoteElement.id === element.id) {
         for(let item of quoteElement.content.price.value) {
@@ -144,7 +144,7 @@ export function setPriceItem(element, values) {
 
 export function addBullet(type, element, subElement, values, action) {
   return (dispatch, getState) => {
-    const quote = getState().quote.concat([]);
+    const quote = getState().quote.quote.concat([]);
     for(let quoteElement of quote) {
       if(quoteElement.id === element.id) {
 
@@ -192,7 +192,7 @@ export function addBullet(type, element, subElement, values, action) {
 
 export function moveBullet(type, element, subElement, action) {
   return (dispatch, getState) => {
-    const quote = getState().quote.concat([]);
+    const quote = getState().quote.quote.concat([]);
     for(let quoteElement of quote) {
       if(quoteElement.id === element.id) {
         let n = 0;
@@ -224,7 +224,7 @@ export function moveBullet(type, element, subElement, action) {
 
 export function removeBullet(type, element, subElement) {
   return (dispatch, getState) => {
-    const quote = getState().quote.concat([]);
+    const quote = getState().quote.quote.concat([]);
     for(let quoteElement of quote) {
       if(quoteElement.id === element.id) {
         let n = 0;
@@ -243,7 +243,7 @@ export function removeBullet(type, element, subElement) {
 
 export function moveSection(element, direction) {
   return (dispatch, getState) => {
-    const quote = getState().quote.concat([]);
+    const quote = getState().quote.quote.concat([]);
     let n = 0;
     for(let quoteElement of quote) {
       if(quoteElement.id === element.id) {
@@ -277,6 +277,17 @@ export function getQuote(id) {
     dispatch({
       type: types.FETCH_QUOTE,
       payload: axios.get(`${config.API_BASE}/quotes/${id}`, {headers: {Authorization: user.auth_token}})
+    });
+  }
+}
+
+export function saveQuote(id, quote) {
+  return (dispatch, getState) => {
+    const user = getState().user;
+    console.log({headers: {Authorization: user.auth_token}});
+    dispatch({
+      type: types.SAVE_QUOTE,
+      payload: axios.patch(`${config.API_BASE}/quotes/${id}/`, quote, {headers: {Authorization: user.auth_token}})
     });
   }
 }

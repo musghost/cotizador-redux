@@ -45,6 +45,10 @@ html, body, .todoapp {
   height: 100%;
 }
 
+.todoapp {
+  position: relative;
+}
+
 .doc-intro {
   display: flex;
   align-items: center;
@@ -70,6 +74,14 @@ html, body, .todoapp {
 .quotation-view {
   width: 1024px;
   margin: 70px auto;
+  position: relative;
+
+  .loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 .quotation-view-wrapper {
@@ -288,4 +300,14 @@ td.selected {
   img {
     width: 100px;
   }
+}
+
+.floating-menu {
+  position: fixed;
+  right: 100px;
+  top: 200px;
+
+  & > div {
+    margin-bottom: 15px;
+  }  
 }
