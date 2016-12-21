@@ -10,7 +10,6 @@ import Paper from  'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
-
 import QuoteText from '../components/quote/QuoteText';
 import QuoteList from '../components/quote/QuoteList';
 import QuoteImages from '../components/quote/QuoteImages';
@@ -18,6 +17,7 @@ import QuoteCalendar from '../components/quote/QuoteCalendar';
 import QuotePrice from '../components/quote/QuotePrice';
 import ModalEdition from '../components/quote/ModalEdition';
 import QuoteDrawer from '../components/quote/QuoteDrawer';
+import ModalAddElement from '../components/ModalAddElement';
 
 class Quote extends Component {
   constructor(props) {
@@ -29,7 +29,8 @@ class Quote extends Component {
       subElement: null,
       initialValues: null,
       node: null,
-      action: null
+      action: null,
+      addElement: true
     }
 
     this.handleToggle = this.handleToggle.bind(this);
@@ -214,6 +215,10 @@ class Quote extends Component {
     }
   }
 
+  handleAddSection = () => {
+
+  }
+
   leaveComment = (text) => {
     const {quote, actions} = this.props;
     const id = this.props.params.id;
@@ -307,6 +312,13 @@ class Quote extends Component {
                 <i className="fa fa-floppy-o"></i>
               </FloatingActionButton>
             </div>
+            <div>
+              <FloatingActionButton
+                onClick={this.handleAddSection}
+                >
+                <i className="fa fa-plus"></i>
+              </FloatingActionButton>
+            </div>
           </div>
           {this.props.quote.loading ? <Loading/> : null}
           {this.props.quote.errors ? <Errors errors={this.props.quote.errors}/> : null}
@@ -315,6 +327,10 @@ class Quote extends Component {
               {elements}
             </div>
           </Paper>
+          {this.state.addElement ? (
+            <ModalAddElement
+              />
+            ) : null}
           {this.state.editing ? (
             <ModalEdition
               onSubmit={this.handleSubmit}

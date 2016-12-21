@@ -319,3 +319,17 @@ td.selected {
   position: absolute;
   right: 10px;
 }
+
+.add-elements-row {
+  display: flex;
+  background: #ccc;
+
+  .add-elements-column {
+    flex: 1;
+  }
+
+  .add-element {
+    background: #fff;
+    height: 150px;
+  }
+}
