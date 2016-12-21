@@ -92,7 +92,7 @@ class QuotePrice extends Component {
             <button>Guardar</button>
             <button onClick={this.moveSection.bind(this, 'down')}>Bajar sección</button>
             <button onClick={this.moveSection.bind(this, 'up')}>Subir sección</button>
-            <button>Eliminar</button>
+            <button onClick={this.props.actions.removeElement.bind(this, this.props.index)}>Eliminar</button>
             <button>Actualizar origen</button>
           </div>
         </h1>
@@ -135,7 +135,8 @@ QuotePrice.propTypes = {
   addBullet: React.PropTypes.func,
   moveBullet: React.PropTypes.func,
   removeBullet: React.PropTypes.func,
-  moveSection: React.PropTypes.func
+  moveSection: React.PropTypes.func,
+  index: React.PropTypes.number
 };
 
 function mapStateToProps(state) {

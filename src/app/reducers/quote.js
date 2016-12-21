@@ -7,8 +7,11 @@ import {
   SAVE_QUOTE_FULFILLED,
   SAVE_QUOTE_REJECTED,
   SET_CURRENT_COMMENTS,
-  CLEAR_CURRENT_COMMENTS
+  CLEAR_CURRENT_COMMENTS,
+  ADD_ELEMENT,
+  REMOVE_ELEMENT
 } from '../constants/ActionTypes';
+import * as quoteElements from '../constants/QuoteElements';
 
 const initialState = {
   loading: false,
@@ -94,7 +97,24 @@ export default function quote(state = initialState, action) {
       };
     }
 
+    case ADD_ELEMENT: {
+      const quote = state.quote.concat([]);
+      quote.splice(action.payload.index, 0, quoteElements[action.payload.type]());
+      return {
+        ...state,
+        quote
+      };
+    }
 
+    case REMOVE_ELEMENT: {
+      const quote = state.quote.concat([]);
+      console.log(action.payload.index);
+      quote.splice(action.payload.index, 1);
+      return {
+        ...state,
+        quote
+      };
+    }
 
     default:
       return state;

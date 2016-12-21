@@ -323,13 +323,70 @@ td.selected {
 .add-elements-row {
   display: flex;
   background: #ccc;
+  justify-content: center;
+
+  &:first-child {
+    border-radius: 3px 3px 0 0;
+    padding: 5px 5px 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 3px 3px;
+    padding: 0 5px 5px;
+  }
+
+  & + .add-elements-row {
+    padding-top: 0;
+  }
 
   .add-elements-column {
-    flex: 1;
+    padding: 5px;
+    position: relative;
+    width: 33%;
   }
 
   .add-element {
     background: #fff;
     height: 150px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgb(0, 188, 212);
+      color: #fff;
+    }
+
+    i {
+      font-size: 40px;
+    }
+
+    .add-element-label {
+
+    }
+  }
+}
+
+.add-element-qlist {
+  h2 {
+    font-size: 1em;
+    margin: 20px 0 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  button {
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    font-size: 12px;
+    padding: 0 20px 0 0;
+    color: rgb(0, 188, 212);
+
+    &:hover {
+      color: rgba(0, 188, 212, 0.4);
+    }
   }
 }

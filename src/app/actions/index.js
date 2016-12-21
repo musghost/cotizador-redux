@@ -378,3 +378,11 @@ export function leaveComment(idQuote, element, id, text) {
 export function clearComments() {
   return {type: types.CLEAR_CURRENT_COMMENTS};
 }
+
+export function addElement(type, index) {
+  return {type: types.ADD_ELEMENT, payload: {type, index}}
+}
+
+export function removeElement(index) {
+  return {type: types.REMOVE_ELEMENT, payload: {index}}
+}

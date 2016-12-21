@@ -30,7 +30,7 @@ class Quote extends Component {
       initialValues: null,
       node: null,
       action: null,
-      addElement: true
+      addElement: false
     }
 
     this.handleToggle = this.handleToggle.bind(this);
@@ -215,8 +215,10 @@ class Quote extends Component {
     }
   }
 
-  handleAddSection = () => {
-
+  addElement = (type, index) => {
+    const {actions} = this.props;
+    actions.addElement(type, index);
+    this.setState({addElement: false});
   }
 
   leaveComment = (text) => {
@@ -231,6 +233,7 @@ class Quote extends Component {
       switch(element.type) {
         case 'text': {
           return <QuoteText
+            index={index}
             value={element}
             key={index}
             editTitle={this.editTitle}
@@ -240,6 +243,7 @@ class Quote extends Component {
         }
         case 'list': {
           return <QuoteList
+            index={index}
             value={element}
             key={index}
             editTitle={this.editTitle}
@@ -252,6 +256,7 @@ class Quote extends Component {
         }
         case 'images': {
           return <QuoteImages
+            index={index}
             value={element}
             key={index}
             editTitle={this.editTitle}
@@ -264,6 +269,7 @@ class Quote extends Component {
         }
         case 'calendar': {
           return <QuoteCalendar
+            index={index}
             value={element}
             key={index}
             editTitle={this.editTitle}
@@ -276,6 +282,7 @@ class Quote extends Component {
         }
         case 'price': {
           return <QuotePrice
+            index={index}
             value={element}
             key={index}
             editTitle={this.editTitle}
@@ -314,7 +321,7 @@ class Quote extends Component {
             </div>
             <div>
               <FloatingActionButton
-                onClick={this.handleAddSection}
+                onClick={()=>{this.setState({addElement: true});}}
                 >
                 <i className="fa fa-plus"></i>
               </FloatingActionButton>
@@ -327,10 +334,12 @@ class Quote extends Component {
               {elements}
             </div>
           </Paper>
-          {this.state.addElement ? (
-            <ModalAddElement
-              />
-            ) : null}
+          <ModalAddElement
+            quote={this.props.quote.quote}
+            show={this.state.addElement}
+            hide={()=>{this.setState({addElement: false});}}
+            addElement={this.addElement}
+            />
           {this.state.editing ? (
             <ModalEdition
               onSubmit={this.handleSubmit}
