@@ -1,5 +1,8 @@
 import React, {PropTypes, Component} from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as Actions from '../../actions/index';
 
 class QuotePrice extends Component {
 
@@ -29,6 +32,26 @@ class QuotePrice extends Component {
 
   moveSection = (direction) => {
     this.props.moveSection(this.props.value, direction);
+  }
+
+  handleShowComments = (text) => {
+    const actions = this.props.actions;
+    actions.setCurrentComments(this.props.value, text.id);
+  }
+
+  showComment = (text) => {
+    if(text.comments && text.comments.length > 0) {
+      return (
+        <span className="text-commented" onClick={this.handleShowComments.bind(this, text)}>
+          <i className="fa fa-commenting-o" aria-hidden="true"></i>
+        </span>
+      );
+    }
+    return (
+      <span className="text-commented" onClick={this.handleShowComments.bind(this, text)}>
+        <i className="fa fa-commenting-o" aria-hidden="true"></i>
+      </span>
+    );
   }
 
   render() {
@@ -61,8 +84,9 @@ class QuotePrice extends Component {
 
     return (
       <div>
-        <h1 className="has-up-menu">
+        <h1 className="commented has-up-menu">
           {title.value}
+          {this.showComment(title)}
           <div className="up-menu">
             <button onClick={this.editTitle}>Editar</button>
             <button>Guardar</button>
@@ -72,13 +96,14 @@ class QuotePrice extends Component {
             <button>Actualizar origen</button>
           </div>
         </h1>
-        <div className="has-up-menu">
+        <div className="commented has-up-menu">
           <div className="up-menu">
             <button>Editar</button>
             <button>Guardar</button>
             <button>Eliminar</button>
             <button>Actualizar origen</button>
           </div>
+          {this.showComment(text)}
           <div dangerouslySetInnerHTML={this.createMarkup(text.value)}></div>
         </div>
         <div>
@@ -113,4 +138,20 @@ QuotePrice.propTypes = {
   moveSection: React.PropTypes.func
 };
 
-export default QuotePrice;
+function mapStateToProps(state) {
+  return {
+    quote: state.quote
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QuotePrice);
+

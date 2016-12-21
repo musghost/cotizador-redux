@@ -3,6 +3,7 @@ import axios from 'axios';
 import {config} from '../constants/Config';
 import uuid from 'uuid/v4';
 import {browserHistory} from 'react-router';
+import moment from 'moment';
 
 export function toggleRegister(change) {
   return {type: types.TOGGLE_REGISTER, change};
@@ -260,10 +261,120 @@ export function getQuote(id) {
 export function saveQuote(id, quote) {
   return (dispatch, getState) => {
     const user = getState().user;
-    console.log({headers: {Authorization: user.auth_token}});
     dispatch({
       type: types.SAVE_QUOTE,
       payload: axios.patch(`${config.API_BASE}/quotes/${id}/`, quote, {headers: {Authorization: user.auth_token}})
     });
   }
+}
+
+function setComments(quoteElement, element, id, dispatch) {
+  const nodeTypes = {
+    text: ['title', 'text'],
+    list: ['title', 'text', 'list'],
+    images: ['title', 'text', 'images'],
+    calendar: ['title', 'calendar'],
+    price: ['title', 'text', 'price']
+  };
+
+  const dispatchObj = {
+    type: types.SET_CURRENT_COMMENTS,
+    payload: {
+      element: {
+        elementId: element.id,
+        type: element.type
+      },
+      id
+    }
+  };
+
+  for(const type of nodeTypes[element.type]) {
+    if(['list', 'images', 'calendar', 'price'].indexOf(type) >= 0){
+      for(const item of quoteElement.content[type].value) {
+        if(item.id === id) {
+          dispatchObj.payload.comments = item.comments;
+          return dispatch(dispatchObj);
+        }
+      }
+    } else {
+      if(quoteElement.content[type].id === id) {
+        dispatchObj.payload.comments = quoteElement.content[type].comments;
+        return dispatch(dispatchObj);
+      }
+    }
+  }
+}
+
+export function setCurrentComments(element, id) {
+  return (dispatch, getState) => {
+     const quote = getState().quote.quote.concat([]);
+     for(let quoteElement of quote) {
+      if(quoteElement.id === element.id) {
+        setComments(quoteElement, element, id, dispatch);
+      }
+     }
+  }
+}
+
+export function leaveComment(idQuote, element, id, text) {
+  return (dispatch, getState) => {
+    const currentState = getState();
+    const quote = currentState.quote.quote.concat([]);
+    const user = currentState.user;
+    for(let quoteElement of quote) {
+      if(quoteElement.id === element.elementId) {
+        const nodeTypes = {
+          text: ['title', 'text'],
+          list: ['title', 'text', 'list'],
+          images: ['title', 'text', 'images'],
+          calendar: ['title', 'calendar'],
+          price: ['title', 'text', 'price']
+        };
+
+        for(const type of nodeTypes[element.type]) {
+          if(['list', 'images', 'calendar', 'price'].indexOf(type) >= 0){
+            for(const item of quoteElement.content[type].value) {
+              if(item.id === id) {
+                item.comments.push({
+                  date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                  from: {
+                    name: user.user.email,
+                    userId: user.user.id
+                  },
+                  id: uuid(),
+                  value: text
+                });
+                dispatch({type: types.CHANGE_QUOTE, quote});
+                return dispatch({
+                  type: types.SAVE_QUOTE,
+                  payload: axios.patch(`${config.API_BASE}/quotes/${idQuote}/`, {content: {quote}}, {headers: {Authorization: user.auth_token}})
+                });
+              }
+            }
+          } else {
+            if(quoteElement.content[type].id === id) {
+              quoteElement.content[type].comments.push({
+                date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                from: {
+                  name: user.user.email,
+                  userId: user.user.id
+                },
+                id: uuid(),
+                value: text
+              });
+              dispatch({type: types.CHANGE_QUOTE, quote});
+              return dispatch({
+                type: types.SAVE_QUOTE,
+                payload: axios.patch(`${config.API_BASE}/quotes/${idQuote}/`, {content: {quote}}, {headers: {Authorization: user.auth_token}})
+              });
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+export function clearComments() {
+  return {type: types.CLEAR_CURRENT_COMMENTS};
 }

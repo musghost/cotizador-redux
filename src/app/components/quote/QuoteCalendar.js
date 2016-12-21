@@ -1,4 +1,7 @@
 import React, {PropTypes, Component} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as Actions from '../../actions/index';
 
 class QuoteCalendar extends Component {
 
@@ -26,6 +29,26 @@ class QuoteCalendar extends Component {
     this.props.moveSection(this.props.value, direction);
   }
 
+  handleShowComments = (text) => {
+    const actions = this.props.actions;
+    actions.setCurrentComments(this.props.value, text.id);
+  }
+
+  showComment = (text) => {
+    if(text.comments && text.comments.length > 0) {
+      return (
+        <span className="text-commented" onClick={this.handleShowComments.bind(this, text)}>
+          <i className="fa fa-commenting-o" aria-hidden="true"></i>
+        </span>
+      );
+    }
+    return (
+      <span className="text-commented" onClick={this.handleShowComments.bind(this, text)}>
+        <i className="fa fa-commenting-o" aria-hidden="true"></i>
+      </span>
+    );
+  }
+
   render() {
     const {title, calendar} = this.props.value.content;
 
@@ -36,8 +59,9 @@ class QuoteCalendar extends Component {
       return (
         <tr key={index}>
           <td>
-            <div className="has-up-menu up-menu-table">
+            <div className="commented has-up-menu up-menu-table">
               {concept}
+              {this.showComment(element)}
               <div className="up-menu">
                 <button onClick={this.editCalendar.bind(this, element)}>Editar</button>
                 <button>Guardar</button>
@@ -59,8 +83,9 @@ class QuoteCalendar extends Component {
 
     return (
       <div>
-        <h1 className="has-up-menu">
+        <h1 className="commented has-up-menu">
           {title.value}
+          {this.showComment(title)}
           <div className="up-menu">
             <button onClick={this.editTitle}>Editar</button>
             <button>Guardar</button>
@@ -98,4 +123,19 @@ QuoteCalendar.propTypes = {
   moveSection: React.PropTypes.func
 };
 
-export default QuoteCalendar;
+function mapStateToProps(state) {
+  return {
+    quote: state.quote
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QuoteCalendar);

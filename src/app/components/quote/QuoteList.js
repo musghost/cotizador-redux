@@ -1,4 +1,7 @@
 import React, {PropTypes, Component} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as Actions from '../../actions/index';
 
 class QuoteList extends Component {
 
@@ -30,6 +33,26 @@ class QuoteList extends Component {
     this.props.moveSection(this.props.value, direction);
   }
 
+  handleShowComments = (text) => {
+    const actions = this.props.actions;
+    actions.setCurrentComments(this.props.value, text.id);
+  }
+
+  showComment = (text) => {
+    if(text.comments && text.comments.length > 0) {
+      return (
+        <span className="text-commented" onClick={this.handleShowComments.bind(this, text)}>
+          <i className="fa fa-commenting-o" aria-hidden="true"></i>
+        </span>
+      );
+    }
+    return (
+      <span className="text-commented" onClick={this.handleShowComments.bind(this, text)}>
+        <i className="fa fa-commenting-o" aria-hidden="true"></i>
+      </span>
+    );
+  }
+
   render() {
     const {title, text, list} = this.props.value.content;
 
@@ -37,9 +60,7 @@ class QuoteList extends Component {
       return (
         <li className="commented has-up-menu" key={index}>
           {element.value}
-          <span className="text-commented" onClick={this.handleToggle}>
-            <i className="fa fa-commenting-o" aria-hidden="true"></i>
-          </span>
+          {this.showComment(element)}
           <div className="up-menu">
             <button onClick={this.editBullet.bind(this, element)}>Editar</button>
             <button onClick={this.moveBullet.bind(this, element, 'down')}>Bajar</button>
@@ -55,8 +76,9 @@ class QuoteList extends Component {
 
     return (
       <div>
-        <h1 className="has-up-menu">
+        <h1 className="has-up-menu commented">
           {title.value}
+          {this.showComment(title)}
           <div className="up-menu">
             <button onClick={this.editTitle}>Editar</button>
             <button>Guardar</button>
@@ -66,13 +88,14 @@ class QuoteList extends Component {
             <button>Actualizar origen</button>
           </div>
         </h1>
-        <div className="has-up-menu">
+        <div className="has-up-menu commented">
           <div className="up-menu">
             <button>Editar</button>
             <button>Guardar</button>
             <button>Eliminar</button>
             <button>Actualizar origen</button>
           </div>
+          {this.showComment(text)}
           <div dangerouslySetInnerHTML={this.createMarkup(text.value)}></div>
         </div>
         <ul>
@@ -81,6 +104,18 @@ class QuoteList extends Component {
       </div>
     );
   }
+}
+
+function mapStateToProps(state) {
+  return {
+    quote: state.quote
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  };
 }
 
 QuoteList.propTypes = {
@@ -93,4 +128,7 @@ QuoteList.propTypes = {
   moveSection: React.PropTypes.func
 };
 
-export default QuoteList;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QuoteList);

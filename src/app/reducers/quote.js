@@ -5,13 +5,18 @@ import {
   FETCH_QUOTE_REJECTED,
   SAVE_QUOTE_PENDING,
   SAVE_QUOTE_FULFILLED,
-  SAVE_QUOTE_REJECTED
+  SAVE_QUOTE_REJECTED,
+  SET_CURRENT_COMMENTS,
+  CLEAR_CURRENT_COMMENTS
 } from '../constants/ActionTypes';
 
 const initialState = {
   loading: false,
   quote: [],
-  errors: null
+  errors: null,
+  currentComments: {
+    comments: []
+  }
 };
 
 export default function quote(state = initialState, action) {
@@ -69,6 +74,22 @@ export default function quote(state = initialState, action) {
         loading: false,
         errors: {
           error: 'Error en el servidor'
+        }
+      };
+    }
+
+    case SET_CURRENT_COMMENTS: {
+      return {
+        ...state,
+        currentComments: action.payload
+      };
+    }
+
+    case CLEAR_CURRENT_COMMENTS: {
+      return {
+        ...state,
+        currentComments: {
+          comments: []
         }
       };
     }

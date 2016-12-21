@@ -142,10 +142,12 @@ td.selected {
     color: #fff;
     text-align: center;
     transition: all 0.2s ease;
+    font-size: 1px;
 
     &:hover {
       width: 30px;
       height: 30px;
+      font-size: 19px;
     }
   }
 
@@ -310,4 +312,10 @@ td.selected {
   & > div {
     margin-bottom: 15px;
   }  
+}
+
+.close-drawer {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
 }

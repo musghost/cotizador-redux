@@ -10,12 +10,14 @@ import Paper from  'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
+
 import QuoteText from '../components/quote/QuoteText';
 import QuoteList from '../components/quote/QuoteList';
 import QuoteImages from '../components/quote/QuoteImages';
 import QuoteCalendar from '../components/quote/QuoteCalendar';
 import QuotePrice from '../components/quote/QuotePrice';
 import ModalEdition from '../components/quote/ModalEdition';
+import QuoteDrawer from '../components/quote/QuoteDrawer';
 
 class Quote extends Component {
   constructor(props) {
@@ -212,6 +214,12 @@ class Quote extends Component {
     }
   }
 
+  leaveComment = (text) => {
+    const {quote, actions} = this.props;
+    const id = this.props.params.id;
+    actions.leaveComment(id, quote.currentComments.element, quote.currentComments.id, text);
+  }
+
   render() {
     const {quote, actions} = this.props;
     let elements = quote.quote.map((element, index) => {
@@ -276,10 +284,14 @@ class Quote extends Component {
       }
       return null;
     });
-
     return (
       <MuiThemeProvider>
         <div className="quotation-view">
+          <QuoteDrawer
+            comments={this.props.quote.currentComments}
+            leaveComment={this.leaveComment}
+            clearComments={this.props.actions.clearComments}
+            />
           <div className="floating-menu">
             <div>
               <FloatingActionButton

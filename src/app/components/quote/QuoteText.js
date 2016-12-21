@@ -1,4 +1,7 @@
 import React, {PropTypes, Component} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as Actions from '../../actions/index';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton/IconButton';
@@ -22,12 +25,33 @@ class QuoteText extends Component {
     this.props.moveSection(this.props.value, direction);
   }
 
+  handleShowComments = (text) => {
+    const actions = this.props.actions;
+    actions.setCurrentComments(this.props.value, text.id);
+  }
+
+  showComment = (text) => {
+    if(text.comments && text.comments.length > 0) {
+      return (
+        <span className="text-commented" onClick={this.handleShowComments.bind(this, text)}>
+          <i className="fa fa-commenting-o" aria-hidden="true"></i>
+        </span>
+      );
+    }
+    return (
+      <span className="text-commented" onClick={this.handleShowComments.bind(this, text)}>
+        <i className="fa fa-commenting-o" aria-hidden="true"></i>
+      </span>
+    );
+  }
+
   render() {
     const {title, text} = this.props.value.content;
     return (
       <div>
-        <h1 className="has-up-menu">
+        <h1 className="has-up-menu commented">
           {title.value}
+          {this.showComment(title)}
           <div className="up-menu">
             <button onClick={this.editTitle}>Editar</button>
             <button>Guardar</button>
@@ -37,13 +61,14 @@ class QuoteText extends Component {
             <button>Actualizar origen</button>
           </div>
         </h1>
-        <div className="has-up-menu">
+        <div className="has-up-menu commented">
           <div className="up-menu">
             <button onClick={this.editText}>Editar</button>
             <button>Guardar</button>
             <button>Eliminar</button>
             <button>Actualizar origen</button>
           </div>
+          {this.showComment(text)}
           <div dangerouslySetInnerHTML={this.createMarkup(text.value)}></div>
         </div>
       </div>
@@ -58,4 +83,19 @@ QuoteText.propTypes = {
   moveSection: React.PropTypes.func
 };
 
-export default QuoteText;
+function mapStateToProps(state) {
+  return {
+    quote: state.quote
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QuoteText);
