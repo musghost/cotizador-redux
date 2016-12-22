@@ -38,6 +38,9 @@ class Dashboard extends Component {
 
   filter(by = '') {
     const {actions, user} = this.props;
+    this.setState({
+      showQuotes: true
+    });
     switch(by) {
       case 'origin': {
         by = 'is_origin=true';
@@ -92,6 +95,8 @@ class Dashboard extends Component {
               quoteSelected={this.state.quoteSelected}
               searchBy={this.searchBy}
               user={user}
+              createQuote={actions.createQuote}
+              removeQuote={actions.removeQuote}
               />
             <div>
               <div className="row">

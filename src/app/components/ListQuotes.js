@@ -43,6 +43,7 @@ class ListQuotes extends Component {
                 <span><strong>{quote.project}</strong></span>
               </div>
             </TableRowColumn>
+            <TableRowColumn><strong>{quote.project}</strong></TableRowColumn>
             <TableRowColumn><strong>{quote.user.name} <small>{quote.user.email}</small></strong></TableRowColumn>
             <TableRowColumn><strong>{moment(quote.updated_at).format('DD MMM, YYYY')}</strong></TableRowColumn>
             <TableRowColumn><strong>{moment(quote.created_at).format('DD MMM, YYYY')}</strong></TableRowColumn>
@@ -57,6 +58,7 @@ class ListQuotes extends Component {
                 <span>{quote.project}</span>
               </div>
             </TableRowColumn>
+            <TableRowColumn>{quote.project}</TableRowColumn>
             <TableRowColumn>{quote.user.name} <small>{quote.user.email}</small></TableRowColumn>
             <TableRowColumn>{moment(quote.updated_at).format('DD MMM, YYYY')}</TableRowColumn>
             <TableRowColumn>{moment(quote.created_at).format('DD MMM, YYYY')}</TableRowColumn>
@@ -77,6 +79,7 @@ class ListQuotes extends Component {
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow>
             <TableHeaderColumn>Nombre</TableHeaderColumn>
+            <TableHeaderColumn>Proyecto</TableHeaderColumn>
             <TableHeaderColumn>Creador</TableHeaderColumn>
             <TableHeaderColumn>Fecha de modificación</TableHeaderColumn>
             <TableHeaderColumn>Fecha de expiración</TableHeaderColumn>

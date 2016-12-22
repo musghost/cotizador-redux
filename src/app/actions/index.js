@@ -4,6 +4,7 @@ import {config} from '../constants/Config';
 import uuid from 'uuid/v4';
 import {browserHistory} from 'react-router';
 import moment from 'moment';
+import {submit} from 'redux-form';
 
 export function toggleRegister(change) {
   return {type: types.TOGGLE_REGISTER, change};
@@ -380,9 +381,46 @@ export function clearComments() {
 }
 
 export function addElement(type, index) {
-  return {type: types.ADD_ELEMENT, payload: {type, index}}
+  return {type: types.ADD_ELEMENT, payload: {type, index}};
 }
 
 export function removeElement(index) {
-  return {type: types.REMOVE_ELEMENT, payload: {index}}
+  return {type: types.REMOVE_ELEMENT, payload: {index}};
+}
+
+export function createQuote(values, quote) {
+  return (dispatch, getState) => {
+    const user = getState().user;
+    const body = {
+      content: quote.content,
+      parentId: quote.id,
+      client: values.client,
+      project: values.project,
+      version: values.version,
+      expiration_date: values.expirationDate,
+      observations: values.observations,
+      parent_id: quote.parent.id,
+      origin_id: quote.origin.id
+    };
+    const HTTPConfig = {
+      headers: {Authorization: user.auth_token}
+    };
+    dispatch({
+      type: types.CREATE_QUOTE,
+      payload: axios.post(`${config.API_BASE}/users/${user.user.id}/quotes/`, body, HTTPConfig)
+    });
+  }
+}
+
+export function removeQuote(id) {
+  return (dispatch, getState) => {
+    const user = getState().user;
+    const HTTPConfig = {
+      headers: {Authorization: user.auth_token}
+    };
+    dispatch({
+      type: types.DELETE_QUOTE,
+      payload: axios.delete(`${config.API_BASE}/quotes/${id}/`, HTTPConfig)
+    });
+  };
 }

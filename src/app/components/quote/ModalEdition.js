@@ -39,7 +39,6 @@ class ModalEdition extends Component {
 
   renderFormType() {
     const node = this.props.node;
-    console.log(node);
     switch (node) {
       case 'title': {
         return (
