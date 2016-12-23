@@ -32,7 +32,6 @@ export default function login(state = initialState, action) {
       };
 
     case CONFIRM_ACCOUNT_REJECTED: {
-      console.log(action.payload);
       return {
         ...state,
         confirm: {
@@ -44,7 +43,6 @@ export default function login(state = initialState, action) {
     }
 
     case CONFIRM_ACCOUNT_FULFILLED: {
-      console.log(action.payload);
       return {
         ...state,
         confirm: {

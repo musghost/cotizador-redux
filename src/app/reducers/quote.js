@@ -16,6 +16,7 @@ import * as quoteElements from '../constants/QuoteElements';
 const initialState = {
   loading: false,
   quote: [],
+  quoteId: null,
   errors: null,
   currentComments: {
     comments: []
@@ -45,7 +46,8 @@ export default function quote(state = initialState, action) {
         ...state,
         loading: false,
         errors: null,
-        quote: action.payload.data.content.quote
+        quote: action.payload.data.content.quote,
+        quoteId: action.payload.data.id
       };
     }
 

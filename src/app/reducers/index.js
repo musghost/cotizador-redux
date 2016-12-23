@@ -5,6 +5,7 @@ import user from './user';
 import quotes from './quotes';
 import quote from './quote';
 import users from './users';
+import attach from './attach';
 import {reducer as formReducer} from 'redux-form';
 import {routerReducer} from 'react-router-redux';
 
@@ -13,10 +14,11 @@ const rootReducer = combineReducers({
   login,
   form: formReducer,
   routing: routerReducer,
-  user: user,
-  quotes: quotes,
-  quote: quote,
-  users: users
+  user,
+  quotes,
+  quote,
+  users,
+  attach
 });
 
 export default rootReducer;

@@ -441,3 +441,15 @@ export function confirmAccount(token, userId) {
     });
   };
 }
+
+export function uploadImage(quoteId, files) {
+  return (dispatch, getState) => {
+    const user = getState().user;
+    const data = new FormData();
+    data.append('file', files[0]);
+    dispatch({
+      type: types.UPLOAD_IMAGE,
+      payload: axios.post(`${config.API_BASE}/quotes/${quoteId}/attachments`, data, {headers: {Authorization: user.auth_token}})
+    });
+  };
+}

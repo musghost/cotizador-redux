@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {reduxForm, Field} from 'redux-form';
 import {TextField} from 'redux-form-material-ui';
 import TinyMCE from 'react-tinymce';
+import AddImage from './AddImage';
 
 class ModalEdition extends Component {
 
@@ -65,8 +66,32 @@ class ModalEdition extends Component {
             />
         );
       }
-      case 'list-add-bullet':
       case 'images-add-bullet': {
+        return (
+          <div>
+            <AddImage/>
+            <div style={{opacity: 0}}>
+              <Field
+                name="value"
+                component={TextField}
+                floatingLabelText="Bullet"
+                fullWidth={Boolean(true)}
+                autoFocus={Boolean(true)}
+                autoComplete="off"
+                />
+            </div>
+            <div className="editor-button">
+              <RaisedButton
+                primary={Boolean(true)}
+                label="Guardar"
+                fullWidth={Boolean(true)}
+                type="submit"
+                />
+            </div>
+          </div>
+        );
+      }
+      case 'list-add-bullet': {
         return (
           <Field
             name="value"

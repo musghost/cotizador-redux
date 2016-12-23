@@ -296,6 +296,19 @@ class Quote extends Component {
       }
       return null;
     });
+
+    let initialValues = null;
+
+    console.log(this.props.attach);
+
+    if(this.props.attach.image !== '') {
+      initialValues = {
+        value: this.props.attach.image
+      };
+      console.log(initialValues);
+    } else {
+      initialValues = this.state.initialValues;
+    }
     return (
       <MuiThemeProvider>
         <div className="quotation-view">
@@ -344,7 +357,7 @@ class Quote extends Component {
             <ModalEdition
               onSubmit={this.handleSubmit}
               handleAlternSubmit={this.handleAlternSubmit}
-              initialValues={this.state.initialValues}
+              initialValues={initialValues}
               node={this.state.node}
               element={this.state.element}
               />
@@ -362,7 +375,8 @@ Quote.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    quote: state.quote
+    quote: state.quote,
+    attach: state.attach
   };
 }
 
