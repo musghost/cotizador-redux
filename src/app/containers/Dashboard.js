@@ -17,14 +17,14 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quoteSelected: null,
       word: '',
       showQuotes: true
     };
   }
 
   selectQuote = (quote) => {
-    this.setState({quoteSelected: quote});
+    const {actions} = this.props;
+    actions.setSelectedQuote(quote);
   }
 
   componentWillMount() {
@@ -92,11 +92,13 @@ class Dashboard extends Component {
         <MuiThemeProvider>
           <div>
             <CustomToolbar
-              quoteSelected={this.state.quoteSelected}
+              quoteSelected={quotes.quoteSelected}
               searchBy={this.searchBy}
               user={user}
               createQuote={actions.createQuote}
               removeQuote={actions.removeQuote}
+              stateQuotes={quotes}
+              cleanErrors={actions.cleanErrorsRemoveQuote}
               />
             <div>
               <div className="row">

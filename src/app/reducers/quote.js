@@ -9,8 +9,7 @@ import {
   SET_CURRENT_COMMENTS,
   CLEAR_CURRENT_COMMENTS,
   ADD_ELEMENT,
-  REMOVE_ELEMENT,
-  CREATE_QUOTE
+  REMOVE_ELEMENT
 } from '../constants/ActionTypes';
 import * as quoteElements from '../constants/QuoteElements';
 
@@ -114,11 +113,6 @@ export default function quote(state = initialState, action) {
         ...state,
         quote
       };
-    }
-
-    case CREATE_QUOTE: {
-      const {values, quote} = state.payload;
-
     }
 
     default:

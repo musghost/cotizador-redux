@@ -98,7 +98,9 @@ class RegisterForm extends Component {
                   label="Registrar"
                   type="submit"
                   primary={Boolean(true)}
+                  disabled={this.props.loading}
                   />
+                {this.props.loading ? <span>Registrando usuario...</span> : null}
               </div>
             </div>
           </Paper>) : (
@@ -115,7 +117,8 @@ class RegisterForm extends Component {
 
 RegisterForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  register: PropTypes.object.isRequired
+  register: PropTypes.object.isRequired,
+  loading: PropTypes.bool
 };
 
 RegisterForm = reduxForm({

@@ -9,6 +9,8 @@ import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import {browserHistory, hashHistory} from 'react-router';
 import NewQuoteModal from './NewQuoteModal';
+import ActionModal from './../components/dashboard/ActionModal';
+import Errors from './Errors';
 
 class CustomToolbar extends Component {
 
@@ -32,8 +34,8 @@ class CustomToolbar extends Component {
   }
 
   createQuote = (values) => {
-    this.props.createQuote(values, this.props.quoteSelected);
     this.setState({modalCreate: false});
+    this.props.createQuote(values, this.props.quoteSelected);
   }
 
   removeQuote = () => {
@@ -41,8 +43,45 @@ class CustomToolbar extends Component {
     this.props.removeQuote(quoteSelected.id);
   }
 
+  showingModal = () => {
+    const {stateQuotes, cleanErrors} = this.props;
+    let modal = null;
+
+    for(const type of ['removeQuoteStatus', 'newQuoteStatus']) {
+      if(stateQuotes[type].loading){
+        modal = (
+          <ActionModal
+            title=""
+            actions={[]}
+            frozen={false}
+            >
+            <div className="modal-status">
+              <p className="loading">Cargando...</p>
+            </div>
+          </ActionModal>
+        );
+      } else if (stateQuotes[type].errors) {
+        const {errors} = stateQuotes[type];
+        const actions = [<RaisedButton label="Aceptar" onClick={cleanErrors} />]
+        modal = (
+          <ActionModal
+            title="Error"
+            actions={actions}
+            frozen={true}
+            >
+            <div className="modal-status">
+              <Errors errors={errors}/>
+            </div>
+          </ActionModal>
+        );
+      }
+    }
+    return modal;
+  }
+
   render() {
     const quoteSelected = this.props.quoteSelected;
+    const {stateQuotes} = this.props;
     let toolbarDisabled = true;
     let title = '';
     let project;
@@ -61,9 +100,11 @@ class CustomToolbar extends Component {
               client: this.props.quoteSelected.client,
               project: this.props.quoteSelected.project
             }}
+            status={stateQuotes.newQuoteStatus}
             cancelCreate={() => {this.setState({modalCreate: false});}}
             />
         ) : null}
+        {this.showingModal()}
         <Toolbar>
           <ToolbarGroup firstChild={true}>
             <TextField
@@ -129,7 +170,9 @@ CustomToolbar.propTypes = {
   quoteSelected: React.PropTypes.object,
   searchBy: React.PropTypes.func,
   createQuote: React.PropTypes.func,
-  removeQuote: React.PropTypes.func
+  removeQuote: React.PropTypes.func,
+  stateQuotes: React.PropTypes.object,
+  cleanErrors: React.PropTypes.func
 };
 
 export default CustomToolbar;

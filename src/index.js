@@ -8,6 +8,7 @@ import Login from './app/containers/Login';
 import Register from './app/containers/Register';
 import Dashboard from './app/containers/Dashboard';
 import Quote from './app/containers/Quote';
+import Confirm from './app/containers/Confirm';
 
 import configureStore from './app/store/configureStore';
 import {Router, Route, browserHistory, hashHistory} from 'react-router';
@@ -36,9 +37,10 @@ render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={Login}/>
-      <Route path="sign-up" component={Register}/>
-      <Route path="dashboard" component={UserIsAuthenticated(Dashboard)}/>
-      <Route path="quote">
+      <Route path="/sign-up" component={Register}/>
+      <Route path="/dashboard" component={UserIsAuthenticated(Dashboard)}/>
+      <Route path="/confirm" component={Confirm}/>
+      <Route path="/quote">
         <Route path=":id" component={UserIsAuthenticated(Quote)}/>
       </Route>
     </Router>

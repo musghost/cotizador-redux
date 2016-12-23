@@ -4,12 +4,18 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RegisterForm from './../components/RegisterForm';
 import axios from 'axios';
 import {config} from '../constants/Config';
+import {Link} from 'react-router';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as TodoActions from '../actions/index';
 
 class Register extends Component {
+
+  state = {
+    succeeded: false,
+    loading: false
+  }
 
   handleSubmit = values => {
     this.props.actions.addServerResponse({});
@@ -19,17 +25,29 @@ class Register extends Component {
     valuesCopy.password_confirmation = valuesCopy.passwordConfirmation;
     // eslint-disable-next-line
     delete valuesCopy.passwordConfirmation;
+    this.setState({loading: true});
     axios.post(`${config.API_BASE}/sign_up`, valuesCopy)
       .then(data => {
         if (data.status === 201) {
-          this.props.actions.toggleRegister(false);
+          this.setState({succeeded: true, loading: false});
         }
       })
       .catch(error => {
+        this.setState({loading: false});
         if (error.response.data) {
           this.props.actions.addServerResponse(error.response.data.errors);
         }
       });
+  }
+
+  goLogin() {
+    return (
+      <div className="login">
+        <h4>Gracias por registrarte</h4>
+        <p>Hemos enviado un correo electrónico a tu bandeja de entrada con instrucciones para confirmar tu cuenta.</p>
+        <p><Link to={'/'}>Regresar</Link></p>
+      </div>
+    );
   }
 
   render() {
@@ -37,11 +55,14 @@ class Register extends Component {
     return (
       <div>
         <MuiThemeProvider>
-          <RegisterForm
-            register={register}
-            onSubmit={this.handleSubmit}
-            actions={actions}
-            />
+          {!this.state.succeeded ? (
+            <RegisterForm
+              register={register}
+              onSubmit={this.handleSubmit}
+              actions={actions}
+              loading={this.state.loading}
+              />
+            ) : this.goLogin()}
         </MuiThemeProvider>
       </div>
     );

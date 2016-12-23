@@ -424,3 +424,20 @@ export function removeQuote(id) {
     });
   };
 }
+
+export function cleanErrorsRemoveQuote() {
+  return {type: types.REMOME_ERRORS};
+}
+
+export function setSelectedQuote(quote) {
+  return {type: types.SET_SELECTED_QUOTE, payload: quote};
+}
+
+export function confirmAccount(token, userId) {
+  return (dispatch) => {
+    dispatch({
+      type: types.CONFIRM_ACCOUNT,
+      payload: axios.get(`${config.API_BASE}/confirmation.${userId}?confirmation_token=${token}`)
+    });
+  };
+}

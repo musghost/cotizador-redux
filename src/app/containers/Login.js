@@ -24,6 +24,8 @@ class Login extends Component {
       .catch(error => {
         if (error.response.data) {
           this.props.actions.addServerResponseLogin(error.response.data.errors);
+        } else {
+          this.props.actions.addServerResponseLogin(["Hubo un error al hacer una petición al servidor."]);
         }
       });
   }

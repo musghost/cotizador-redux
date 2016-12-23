@@ -4,8 +4,27 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {TextField} from 'redux-form-material-ui';
+import Errors from './Errors';
 
 class NewQuoteModal extends Component {
+
+  renderErrors = () => {
+    const {status} = this.props;
+    if(status.loading) {
+      return (
+        <div className="loading">
+          <img src="assets/img/loading.gif"/>
+        </div>
+      );
+    } else if(status.errors) {
+      return (
+        <div>
+          <h4>¡Oops!</h4>
+          <Errors errors={status.errors}/>
+        </div>
+      );
+    }
+  }
 
   render() {
     const {client, project, version} = this.props.quote;
@@ -19,58 +38,65 @@ class NewQuoteModal extends Component {
           open={true}
           onRequestClose={this.handleClose}
           >
-          <form
-            ref={(form) => {this.createForm = form;}}
-            onSubmit={handleSubmit}>
-            <div>
-              <Field
-                name="client"
-                component={TextField}
-                floatingLabelText="Cliente"
-                />
+          <div className="row">
+            <div className="col-sm-6">
+              <form
+                ref={(form) => {this.createForm = form;}}
+                onSubmit={handleSubmit}>
+                <div>
+                  <Field
+                    name="client"
+                    component={TextField}
+                    floatingLabelText="Cliente"
+                    />
+                </div>
+                <div>
+                  <Field
+                    name="project"
+                    component={TextField}
+                    floatingLabelText="Proyecto"
+                    />
+                </div>
+                <div>
+                  <Field
+                    name="version"
+                    component={TextField}
+                    floatingLabelText="Versión"
+                    />
+                  <small>{version}</small>
+                </div>
+                <div>
+                  <Field
+                    name="expirationDate"
+                    component={TextField}
+                    floatingLabelText="Fecha de expiración"
+                    />
+                </div>
+                <div>
+                  <Field
+                    name="observations"
+                    component={TextField}
+                    floatingLabelText="Observaciones"
+                    />
+                </div>
+                <div>
+                  <FlatButton
+                    label="Cancelar"
+                    primary={true}
+                    onClick={this.props.cancelCreate}
+                    />
+                  <FlatButton
+                    label="Submit"
+                    primary={true}
+                    type="submit"
+                    />
+                </div>
+              </form>
             </div>
-            <div>
-              <Field
-                name="project"
-                component={TextField}
-                floatingLabelText="Proyecto"
-                />
+            <div className="col-sm-6">
+              {this.renderErrors()}
             </div>
-            <div>
-              <Field
-                name="version"
-                component={TextField}
-                floatingLabelText="Versión"
-                />
-              <small>{version}</small>
-            </div>
-            <div>
-              <Field
-                name="expirationDate"
-                component={TextField}
-                floatingLabelText="Fecha de expiración"
-                />
-            </div>
-            <div>
-              <Field
-                name="observations"
-                component={TextField}
-                floatingLabelText="Observaciones"
-                />
-            </div>
-            <div>
-              <FlatButton
-                label="Cancelar"
-                primary={true}
-                onClick={this.props.cancelCreate}
-                />
-              <FlatButton
-                label="Submit"
-                primary={true}
-                type="submit"
-                />
-            </div>
-          </form>
+          </div>
         </Dialog>
       </div>
     );
@@ -81,7 +107,8 @@ class NewQuoteModal extends Component {
 NewQuoteModal.propTypes = {
   quote: React.PropTypes.object,
   handleSubmit: React.PropTypes.func,
-  cancelCreate: React.PropTypes.func
+  cancelCreate: React.PropTypes.func,
+  status: React.PropTypes.object
 };
 
 NewQuoteModal = reduxForm({

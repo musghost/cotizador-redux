@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import {reduxForm, Field} from 'redux-form';
 import {TextField} from 'redux-form-material-ui';
+import {Link} from 'react-router';
 
 const validate = values => {
   const errors = {};
@@ -70,8 +71,8 @@ class LoginForm extends Component {
             </div>
             {errorContainer}
             <div className="field-group">
-              <div><a href="#">Registrarse</a></div>
-              <a href="#">Recuperar contraseña</a>
+              <div><a href="#">Recuperar contraseña</a></div>
+              <Link to={'/sign-up'}>Registrarse</Link>
             </div>
           </div>
         </Paper>

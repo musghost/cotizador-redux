@@ -1,11 +1,19 @@
 import {
   TOGGLE_LOGIN,
-  ADD_LOGIN_ERRORS
+  ADD_LOGIN_ERRORS,
+  CONFIRM_ACCOUNT_FULFILLED,
+  CONFIRM_ACCOUNT_PENDING,
+  CONFIRM_ACCOUNT_REJECTED
 } from '../constants/ActionTypes';
 
 const initialState = {
   login: true,
-  errors: null
+  errors: null,
+  confirm: {
+    loading: false,
+    errors: null,
+    done: false
+  }
 };
 
 export default function login(state = initialState, action) {
@@ -22,6 +30,30 @@ export default function login(state = initialState, action) {
         ...state,
         errors: action.errors
       };
+
+    case CONFIRM_ACCOUNT_REJECTED: {
+      console.log(action.payload);
+      return {
+        ...state,
+        confirm: {
+          loading: false,
+          errors: null,
+          done: true
+        }
+      };
+    }
+
+    case CONFIRM_ACCOUNT_FULFILLED: {
+      console.log(action.payload);
+      return {
+        ...state,
+        confirm: {
+          loading: false,
+          errors: null,
+          done: true
+        }
+      };
+    }
 
     default:
       return state;
