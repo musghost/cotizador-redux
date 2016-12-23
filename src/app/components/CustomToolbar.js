@@ -9,13 +9,15 @@ import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import {browserHistory, hashHistory} from 'react-router';
 import NewQuoteModal from './NewQuoteModal';
+import ShareModal from './ShareModal';
 import ActionModal from './../components/dashboard/ActionModal';
 import Errors from './Errors';
 
 class CustomToolbar extends Component {
 
   state = {
-    modalCreate: false
+    modalCreate: false,
+    modalShare: false
   }
 
   handleNewQuote() {
@@ -79,6 +81,10 @@ class CustomToolbar extends Component {
     return modal;
   }
 
+  handleShare = () => {
+    this.setState({modalShare: true});
+  }
+
   render() {
     const quoteSelected = this.props.quoteSelected;
     const {stateQuotes} = this.props;
@@ -102,6 +108,18 @@ class CustomToolbar extends Component {
             }}
             status={stateQuotes.newQuoteStatus}
             cancelCreate={() => {this.setState({modalCreate: false});}}
+            />
+        ) : null}
+        {this.state.modalShare ? (
+          <ShareModal
+            onSubmit={this.createQuote}
+            quote={this.props.quoteSelected}
+            initialValues={{
+              client: this.props.quoteSelected.client,
+              project: this.props.quoteSelected.project
+            }}
+            status={stateQuotes.newQuoteStatus}
+            cancelCreate={() => {this.setState({modalShare: false});}}
             />
         ) : null}
         {this.showingModal()}
@@ -137,7 +155,11 @@ class CustomToolbar extends Component {
                 <i className="fa fa-eye" aria-hidden="true"></i>
               </span>
             </IconButton>
-            <IconButton tooltip="Compartir" disabled={toolbarDisabled}>
+            <IconButton
+              tooltip="Compartir"
+              disabled={toolbarDisabled}
+              onClick={this.handleShare}
+              >
               <span className="font-icon">
                 <i className="fa fa-share-alt" aria-hidden="true"></i>
               </span>
